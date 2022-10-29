@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import './BurgerMenu.css';
 import burguerPic from '../../../assets/menu.svg';
 import { parametersMenu } from './parametersBurgerMenu.js';
