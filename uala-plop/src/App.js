@@ -1,10 +1,11 @@
-import Header from './layout/Header.js';
+
 import './App.css';
+import Layout from './components/layout/Layout.js';
 
 function App() {
   return (
     <div className="app">
-      <Header titleApp='Uala Plop' />
+      <Layout titleApp='Uala Plop' />
     </div>
   );
 }
