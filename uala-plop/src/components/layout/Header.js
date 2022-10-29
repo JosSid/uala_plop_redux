@@ -1,5 +1,5 @@
 import BurgerMenu from "../common/burgerMenu/BurgerMenu.js";
-import '../../styles/Header.css'
+import './styles/Header.css'
 
 const Header = ({titleApp}) => {
     return (
