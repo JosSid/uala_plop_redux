@@ -8,7 +8,7 @@ const LoginPage = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
   const [error, setError] = useState(null);
-  const [isFetching, setIsFetching] = useState(false)
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
@@ -19,7 +19,7 @@ const LoginPage = ({ onLogin }) => {
     event.preventDefault();
     try {
       resetError();
-      setIsFetching(true)
+      setIsFetching(true);
       await login({ email, password });
 
       onLogin();
@@ -28,7 +28,7 @@ const LoginPage = ({ onLogin }) => {
     } catch (err) {
       setError(err);
     }
-    setIsFetching(false)
+    setIsFetching(false);
   };
 
   const isEnabledButton = () => email && password && !isFetching;

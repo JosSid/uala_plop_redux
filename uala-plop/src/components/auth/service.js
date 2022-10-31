@@ -8,4 +8,16 @@ export const login = credentials => {
     
 };
 
+/* export const login = async (credentials) => {
+
+    const data = await client.post('/api/auth/login', credentials);
+   
+   const accessToken = data.accessToken
+    
+        storage.set('auth', accessToken)
+
+        return accessToken => {setAuthorizationHeader(accessToken)};
+    
+}; */
+
 
