@@ -2,20 +2,28 @@ import { useState } from "react";
 import './LoginPage.css'
 import FormField from "../common/formField/FormField.js";
 import { login } from "./service.js";
+import storage from "../../utils/storage";
 const LoginPage = ({onLogin}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [check, setCheck] = useState(false)
 
     const handleChangeEMail = event => setEmail(event.target.value);
     const handleChangePassword = event => setPassword(event.target.value);
 
     const handleSubmit =  async (event) => {
         event.preventDefault();
-        await login({email, password})
+        try {
+            await login({email, password})
         
-        onLogin()
-        
+            onLogin()
+            
+            !check && storage.remove('auth')
+        }catch(err){
+            console.log(err)
+        }
+
     };
 
     const isEnabledButton = () => email && password
@@ -44,7 +52,11 @@ const LoginPage = ({onLogin}) => {
                     value={password}
                 />
 
-                <button type="submit" className="button__wrapper" disabled={!isEnabledButton()}>Click me</button>
+                <button type="submit" className="button__wrapper" disabled={!isEnabledButton()}>Login</button>
+                <input type="checkbox"   onChange={event => 
+                setCheck(event.target.checked)
+                }/>
+                <label htmlFor="input">Desea seguir login?</label>
             </form>
             
         </div>
