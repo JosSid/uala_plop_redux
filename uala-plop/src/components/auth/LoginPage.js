@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import './LoginPage.css';
+import Button from '../common/Button.js';
+import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, titleApp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
@@ -35,7 +37,7 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div className='loginPage'>
-      <h1 className='loginPage-title'>Bienvenido</h1>
+      <h1 className='loginPage-title'>{titleApp}</h1>
       <form onSubmit={handleSubmit}>
         <FormField
           type='text'
@@ -55,18 +57,16 @@ const LoginPage = ({ onLogin }) => {
           value={password}
         />
 
-        <button
-          type='submit'
-          className='button__wrapper'
+        <Button
+          type="submit"
+          variant="primary"
+          className="loginForm-submit"
           disabled={!isEnabledButton()}
         >
-          Login
-        </button>
-        <input
-          type='checkbox'
-          onChange={(event) => setCheck(event.target.checked)}
-        />
-        <label htmlFor='input'>Desea seguir login?</label>
+          Log in
+        </Button>
+        <CheckBox name="checklog" label="Check for recording Login" onChange={(event) => setCheck(event.target.checked)}/>
+
       </form>
       {error && (
         <div className='loginPage-error' onClick={resetError}>

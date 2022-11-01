@@ -7,19 +7,28 @@ const AdsPage = () => {
 
   const getListAds = async () => {
     const listAds = await getAds();
-    
+
     setAds(listAds);
   };
 
-  useEffect(() => {getListAds()}, []);
+  useEffect(() => {
+    getListAds();
+  }, []);
 
   return (
     <div className='ads__page'>
-      <ul>
-        {ads.map((ad) => (
-          <li key={ad.id}>{ad.name}</li>
-        ))}
-      </ul>
+      {ads.map((ad) => (
+        <div key={ad.id} className='ad__container'>
+          <h3>{ad.name}</h3>
+          <h3>{ad.price}</h3>
+          <img src={ad.photo ||'https://shop.sarmy.net.nz/missing_product_image.jpg'} alt='Foto' />
+          <h3>{ad.sale ? 'Venta' : 'Busco'}</h3>
+          <h6>Categorias</h6>
+          {ad.tags.map((tag) => (
+            <span key={tag}>{`${tag} `}</span>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };

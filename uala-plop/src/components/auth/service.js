@@ -1,4 +1,4 @@
-import client, { setAuthorizationHeader } from '../../api/client.js';
+import client, { removeAuthorizationHeader, setAuthorizationHeader } from '../../api/client.js';
 import storage from '../../utils/storage.js';
 
 export const login = credentials => {
@@ -20,4 +20,7 @@ export const login = credentials => {
     
 }; */
 
-
+export const logout = () => {
+    removeAuthorizationHeader();
+    storage.remove('auth');
+};
