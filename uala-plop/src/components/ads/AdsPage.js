@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAds } from './service';
+import {Link} from 'react-router-dom'
 import './AdsPage.css';
 
 const AdsPage = () => {
@@ -18,7 +19,7 @@ const AdsPage = () => {
   return (
     <div className='ads__page'>
       {ads.map((ad) => (
-        <div key={ad.id} className='ad__container'>
+        <Link to={`/ads/${ad.id}`} key={ad.id} className='ad__container'>
           <h3>{ad.name}</h3>
           <h3>{ad.price}</h3>
           <img src={ad.photo ||'https://shop.sarmy.net.nz/missing_product_image.jpg'} alt='Foto' />
@@ -27,7 +28,7 @@ const AdsPage = () => {
           {ad.tags.map((tag) => (
             <span key={tag}>{`${tag} `}</span>
           ))}
-        </div>
+        </Link>
       ))}
     </div>
   );

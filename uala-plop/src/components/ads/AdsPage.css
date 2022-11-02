@@ -2,3 +2,8 @@
     min-height: 30px;
     background-color: aqua;
 }
+
+.ad__container {
+    text-decoration: none;
+    color: rgb(17, 14, 14);
+}

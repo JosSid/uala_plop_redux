@@ -8,3 +8,9 @@ export const getAds =  async () => {
     return ads;
    
 };
+
+export const getAdId = async (adId) => {
+    const ad = await client.get(`${adsURL}/${adId}`);
+
+    return ad;
+}
