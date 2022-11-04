@@ -8,6 +8,7 @@ import NewAdPage from './components/ads/NewAdPage.js';
 import AdPage from './components/ads/AdPage.js';
 import AdsPage from './components/ads/AdsPage.js';
 import RequireAuth from './components/auth/RequireAuth.js';
+import NotFound from './components/common/error/notFound/NotFound.js';
 function App({ haveToken }) {
   const [isLogged, setIsLogged] = useState(haveToken);
 
@@ -37,7 +38,7 @@ function App({ haveToken }) {
         <Route path='/' element={isLogged ? <Navigate to="/ads" /> :
         <Navigate to="/login" />} />;
 
-        <Route path='/404' element={<div>Not Found ||Error ||404</div>} />;
+        <Route path='/404' element={<NotFound error={{message: "404"}} />} />;
         <Route path='*' element={<Navigate to='/404' />} />
       </Routes>
       

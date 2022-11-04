@@ -20,10 +20,10 @@ const Button = styled.button`
   max-height:50px;
   justify-content: center;
   min-width: 72px;
-  max-width: 250px;
+  max-width: 150px;
   outline-style: none;
   opacity: ${props => (props.disabled ? 0.9 : 1)};
-  padding: 0 30px;
+  padding: 0 20px;
   pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
   text-decoration: none;
   transition: background-color 0.2s;

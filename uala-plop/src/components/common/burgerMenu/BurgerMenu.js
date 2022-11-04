@@ -1,28 +1,28 @@
 import './BurgerMenu.css';
 import burguerPic from '../../../assets/menu.svg';
 import Button from '../Button.js';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 const BurgerMenu = ({ onLogout }) => {
+  const checkBoxElement = useRef();
   const offCheck = () => {
-    const inputElement = document.getElementById('menu');
-    inputElement.checked = false;
-  };
+    checkBoxElement.current.checked = false;
+  };//cambiar funcion a estado
 
   return (
     <nav className='burger__menu__wrapper'>
       <label htmlFor='menu' className='burger__menu__label'>
         <img src={burguerPic} className='burger__menu__img' alt='Menu' />
       </label>
-      <input type='checkbox' id='menu' className='burger__menu__input' />
+      <input ref={checkBoxElement} type='checkbox' id='menu' className='burger__menu__input' />
       <div className='burger__menu__list' onClick={offCheck}>
-        <Button type='submit' variant='primary' className='loginForm-submit'>{/*modificar a link con as link*/}
-          <NavLink
-            style={{ color: 'rgb(242, 245, 232)', textDecoration: 'none' }}
-            to='/ads/new'
-          >
+
+        <Button as={Link} to='/' type='button' variant='primary' className='loginForm-submit'>
+            Home
+        </Button>
+        <Button as={Link} to='/ads/new' type='submit' variant='primary' className='loginForm-submit'>
             Create Ad
-          </NavLink>
         </Button>
 
         <Button

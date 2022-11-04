@@ -14,3 +14,9 @@ export const getAdId = async (adId) => {
 
     return ad;
 }
+
+export const createAd = async (body) => {
+    
+    const response = await client.post(adsURL,{ Headers :{'Content-Type': 'multipart/form-data'}, body})
+    return response
+};

@@ -5,6 +5,7 @@ import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
+import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js'
 const LoginPage = ({ onLogin, titleApp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,9 +70,7 @@ const LoginPage = ({ onLogin, titleApp }) => {
 
       </form>
       {error && (
-        <div className='loginPage-error' onClick={resetError}>
-          {error.message}
-        </div>
+       <ErrorDisplay error={error} resetError={resetError} />
       )}
     </div>
   );
