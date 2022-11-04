@@ -22,17 +22,16 @@ const NewAdPage = ({ titleApp, ...props }) => {
 
   const handlePhoto = (event) => {
     setPhoto(event.target.value)
-    console.log(photo)
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
     try{
-      const createNewAd = await createAd({name,sale,price,tags,photo})
+      const createNewAd = await createAd({name,sale,price,tags})
       return createNewAd
     }catch(err){
 
     }
-    console.log({name,sale,price,tags,photo});
+
   };
 
 
