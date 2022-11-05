@@ -17,7 +17,7 @@ export const getAdId = async (adId) => {
 
 export const createAd = async (body) => {
     
-    const response = await client.post(adsURL,body)
-    console.log(response)
-    return response
+    const response = await client.post(adsURL,body);
+    
+    return response;
 };

@@ -9,27 +9,35 @@ const NewAdPage = ({ titleApp, ...props }) => {
   const [price, setPrice] = useState('');
   const [tags, setTags] = useState([]);
   const [photo, setPhoto] = useState(null);
+  const [error, setError] = useState(null);//implementar
+  const [enabled, setEnabled] =useState(false);//implementar
+ 
 
   const handleChangeName = (event) => setName(event.target.value);
   const handleChangeSale = (event) => setSale(event.target.value);
   const handleChangePrice = (event) => setPrice(parseInt(event.target.value));
   const handleChangeTags = (event) => {
-    const newTags = event.target.selectedOptions;
-    const reNewTags = Array.from(newTags).map(e => e.value)
-    setTags(reNewTags);
+    const selectedTags = event.target.selectedOptions;
+    const finallyTags = Array.from(selectedTags).map(e => e.value)
+    setTags(finallyTags);
     
   };
 
   const handlePhoto = (event) => {
-    setPhoto(event.target.value)
+    setPhoto(event.target.files)
+    
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+
+
     try{
-      const createNewAd = await createAd({name,sale,price,tags})
+      const createNewAd = await createAd(formData)
       return createNewAd
     }catch(err){
-
+      setError(err)
     }
 
   };
