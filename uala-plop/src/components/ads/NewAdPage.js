@@ -2,6 +2,9 @@ import { useState } from 'react';
 import FormField from '../common/formField/FormField.js';
 import Button from '../common/Button.js';
 import { createAd } from './service.js';
+import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../common/spinner/Spinner.js';
 
 const NewAdPage = ({ titleApp, ...props }) => {
   const [name, setName] = useState('');
@@ -9,43 +12,50 @@ const NewAdPage = ({ titleApp, ...props }) => {
   const [price, setPrice] = useState('');
   const [tags, setTags] = useState([]);
   const [photo, setPhoto] = useState(null);
-  const [error, setError] = useState(null);//implementar
-  const [enabled, setEnabled] =useState(false);//implementar
- 
+  const [error, setError] = useState(null); 
+  const [isFetching, setIsFetching] = useState(false);
+  const navigate = useNavigate()
 
   const handleChangeName = (event) => setName(event.target.value);
   const handleChangeSale = (event) => setSale(event.target.value);
   const handleChangePrice = (event) => setPrice(parseInt(event.target.value));
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
-    const finallyTags = Array.from(selectedTags).map(e => e.value)
+    const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
-    
   };
 
   const handlePhoto = (event) => {
-    setPhoto(event.target.files)
-    
-  }
+    setPhoto(event.target.files);
+  };
+
+  const isButtonEnabled = () => name  && price && tags.length > 0;
+
+  const resetError = () => setError(null)
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-
-
-
-    try{
-      const createNewAd = await createAd(formData)
-      return createNewAd
-    }catch(err){
-      setError(err)
+    resetError()
+    setIsFetching(true)
+    try {
+      
+      const createNewAd = await createAd(formData);
+      const newAd = createNewAd.id;
+      
+      navigate(`/ads/${newAd}`)
+      
+    } catch (err) {
+      setError(err);
     }
-
+    setIsFetching(false)
   };
-
-
 
   return (
     <div className='newAdPage__container'>
+      {isFetching && (<Spinner />)}
       <h1>Create Advertisment</h1>
       <form onSubmit={handleSubmit}>
         <FormField
@@ -55,6 +65,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
           className='loginForm-field'
           onChange={handleChangeName}
           value={name}
+          placeholder='Required field*'
         />
         <fieldset onChange={handleChangeSale}>
           <legend>For sale or Wanted :</legend>
@@ -70,6 +81,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
           className='loginForm-field'
           onChange={handleChangePrice}
           value={price}
+          placeholder='Required field*'
         />
 
         <select
@@ -78,7 +90,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
           onChange={handleChangeTags}
           multiple={true}
         >
-          <optgroup >
+          <optgroup>
             <option name='lifestyle' value='lifestyle'>
               Life Style
             </option>
@@ -93,17 +105,21 @@ const NewAdPage = ({ titleApp, ...props }) => {
             </option>
           </optgroup>
         </select>
-        <label htmlFor="photo">Upload picture</label>
+        <label htmlFor='photo'>Upload picture</label>
         <input onChange={handlePhoto} type='file' name='photo' id='photo' />
         <Button
           type='submit'
           variant='primary'
           className='loginForm-submit'
-          disabled={false}
+          disabled={!isButtonEnabled()}
+          
         >
           Create Advertisment
         </Button>
       </form>
+      {error && (
+       <ErrorDisplay error={error} resetError={resetError} />
+      )}
     </div>
   );
 };
