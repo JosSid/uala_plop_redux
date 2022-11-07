@@ -103,6 +103,7 @@
 
 .burger__menu__input:checked + .burger__menu__list{
   background-color: whitesmoke;
+  z-index: 99;
 }
 
 .burger__menu__label, .burger__menu__input {
@@ -131,7 +132,7 @@
       position: fixed;
       top: 80px;
       bottom: 0;
-      background-color: rgba(17, 14, 14, 0.3);;
+      background-color: rgb(17, 14, 14);;
       width: 100%;
       left: 0;
       display:flex;

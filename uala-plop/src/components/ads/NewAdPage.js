@@ -5,6 +5,7 @@ import { createAd } from './service.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
+import './NewAdPage.css'
 
 const NewAdPage = ({ titleApp, ...props }) => {
   const [name, setName] = useState('');

@@ -21,3 +21,9 @@ export const createAd = async (body) => {
     
     return response;
 };
+
+export const deleteAd = async (adId) => {
+    const deletedAd = await client.delete(`${adsURL}/${adId}`);
+    
+    return deletedAd;
+};

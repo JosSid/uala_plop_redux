@@ -1,12 +1,24 @@
+.header__main { 
+    top: 0;
+    position: sticky;
+}
+
 .header__container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    top: 0;
+ 
+    
 }
 
 .header__title {
     margin-inline-start: 20px;
+}
+
+.header__confirm {
+    background-color: blueviolet;
+    
 }
 

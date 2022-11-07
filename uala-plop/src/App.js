@@ -17,13 +17,13 @@ function App({ haveToken }) {
   const handleLogin = () => setIsLogged(true);
 
   const handleLogout = () => {
-    if(window.confirm('Sure you want Logout?')) {
+
       logout()
       setIsLogged(false)
     };
      
     
-  };
+
   return (
     <div className='app'>
       <Routes>

@@ -20,6 +20,11 @@ export const login = credentials => {
     
 }; */
 
+export const dataOwner = async () => {
+    const data = await client.get('/api/auth/me');
+    return data
+}
+
 export const logout = () => {
     removeAuthorizationHeader();
     storage.remove('auth');
