@@ -5,15 +5,18 @@ import Spinner from '../common/spinner/Spinner.js';
 import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Button from '../common/Button.js';
-//import { dataOwner } from '../auth/service.js';
+import Confirm from '../common/confirm_element/Confirm.js';
 const AdPage = () => {
   const { id } = useParams();
 
   const [ad, setAd] = useState(null);
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
+
+  const handleConfirm = () => setConfirm(true)
 
   const getAd = async (id) => {
     try {
@@ -41,10 +44,14 @@ const AdPage = () => {
   const deletedAd = async () => {
     try {
       setIsFetching(true);
-      const ad = deleteAd(id);
 
-        setIsDeleted(true)
+      deleteAd(id);
+      
+      setIsDeleted(true);
 
+      setTimeout(() => {
+        navigate('/')
+      }, 500);
     } catch (err) {
       setError(err);
     }
@@ -74,12 +81,10 @@ const AdPage = () => {
             {ad.tags &&
               ad.tags.map((tag) => <span key={tag}>{` -${tag}- `}</span>)}
           </p>
-          {!isDeleted ? (<Button variant='primary' onClick={deletedAd}>
+          {!isDeleted && !confirm && (<Button variant='primary' onClick={handleConfirm}>
             Delete Ad
-          </Button>) :
-          (
-            <Button variant='primary' as={Link} to='/'>Go to Home</Button>
-          )}
+          </Button>)}
+          {confirm && !isDeleted && <Confirm children='Are you sure for delete ad?' confirm={deletedAd} notConfirm={()=> setConfirm(false)}></Confirm>}
         </div>
       ) : (
         <Spinner />

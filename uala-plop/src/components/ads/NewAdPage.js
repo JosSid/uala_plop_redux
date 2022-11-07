@@ -58,7 +58,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
     <div className='newAdPage__container'>
       {isFetching && (<Spinner />)}
       <h1>Create Advertisment</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='form__container' onSubmit={handleSubmit}>
         <FormField
           type='text'
           name='name'
@@ -83,15 +83,16 @@ const NewAdPage = ({ titleApp, ...props }) => {
           onChange={handleChangePrice}
           value={price}
           placeholder='Required field*'
+          min='0'
         />
-
+        <label htmlFor='tags'>Tags</label>
         <select
           name='tags'
           id='tags'
           onChange={handleChangeTags}
           multiple={true}
         >
-          <optgroup>
+          <optgroup label='Required field*'>
             <option name='lifestyle' value='lifestyle'>
               Life Style
             </option>
@@ -108,7 +109,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
         </select>
         <label htmlFor='photo'>Upload picture</label>
         <input onChange={handlePhoto} type='file' name='photo' id='photo' />
-        <Button
+        {isButtonEnabled() && <Button
           type='submit'
           variant='primary'
           className='loginForm-submit'
@@ -116,7 +117,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
           
         >
           Create Advertisment
-        </Button>
+        </Button>}
       </form>
       {error && (
        <ErrorDisplay error={error} resetError={resetError} />

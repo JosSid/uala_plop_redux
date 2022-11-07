@@ -3,17 +3,26 @@ import { getAds } from './service';
 import {Link, useNavigate} from 'react-router-dom'
 import Confirm from '../common/confirm_element/Confirm.js';
 import './AdsPage.css';
+import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 
 const AdsPage = () => {
   const [ads, setAds] = useState([]);
   const [confirm,setConfirm] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const getListAds = async () => {
-    const listAds = await getAds();
+    try{
+      const listAds = await getAds();
 
-    setAds(listAds);
+      setAds(listAds);
+    }catch(err){
+      setError(err)
+    }
+
   };
+
+  const resetError = () => setError(null)
 
   const goToCreate = () => navigate('/ads/new');
   const notConfirm = () => setConfirm(false)
@@ -33,7 +42,7 @@ const AdsPage = () => {
 
   return (
     <div className='ads__page'>
-      {ads.length > 0 && confirm && <Confirm confirm={goToCreate} notConfirm={notConfirm}>{message()}</Confirm>}
+      {ads.length < 1 && confirm && <Confirm confirm={goToCreate} notConfirm={notConfirm}>{message()}</Confirm>}
       {ads.map((ad) => (
         <Link to={`/ads/${ad.id}`} key={ad.id} className='ad__container'>
           <h3>{ad.sale ? 'Vendo' : 'Busco'}</h3>
@@ -46,6 +55,7 @@ const AdsPage = () => {
             ))}
         </Link>
       ))}
+      {error && <ErrorDisplay error={error} resetError={resetError}/>}
     </div>
   );
 };
