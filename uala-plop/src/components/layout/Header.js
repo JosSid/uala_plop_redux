@@ -1,11 +1,11 @@
 import BurgerMenu from "../common/burgerMenu/BurgerMenu.js";
 import './styles/Header.css'
 import Confirm from "../common/confirm_element/Confirm.js";
-import { useState, useContext } from "react";
-import AuthContext from "../auth/Context.js";
+import { useState } from "react";
+import {useAuthContext} from "../auth/Context.js";
 
 const Header = () => {
-    const {titleApp, handleLogout} = useContext(AuthContext)
+    const {titleApp, handleLogout} = useAuthContext()
     const [confirm, setConfirm] = useState(false);
 
     const handleConfirm = () => setConfirm(true);

@@ -6,10 +6,9 @@ import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js'
-import { useContext } from 'react';
-import AuthContext from './Context.js';
+import {useAuthContext} from './Context.js';
 const LoginPage = () => {
-  const { handleLogin, titleApp } = useContext(AuthContext)
+  const { handleLogin, titleApp } = useAuthContext()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
