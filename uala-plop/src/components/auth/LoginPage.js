@@ -6,7 +6,10 @@ import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js'
-const LoginPage = ({ onLogin, titleApp }) => {
+import { useContext } from 'react';
+import AuthContext from './Context.js';
+const LoginPage = () => {
+  const { handleLogin, titleApp } = useContext(AuthContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
@@ -25,7 +28,7 @@ const LoginPage = ({ onLogin, titleApp }) => {
       setIsFetching(true);
       await login({ email, password });
 
-      onLogin();
+      handleLogin();
 
       !check && storage.remove('auth');
     } catch (err) {
@@ -38,7 +41,7 @@ const LoginPage = ({ onLogin, titleApp }) => {
 
   return (
     <div className='loginPage'>
-      <h1 className='loginPage-title'>{titleApp}</h1>
+      <h1 className='loginPage-title'>{'Welcome to'} <br />{`${titleApp}`}</h1>
       <form onSubmit={handleSubmit}>
         <FormField
           type='text'

@@ -2,19 +2,12 @@ import './styles/Layout.css'
 import Header from "./Header.js";
 import { Outlet } from 'react-router-dom';
 
-
-
-const Layout = ({titleApp, title, onLogout,children}) => {
-
-
-
+const Layout = () => {
     
-
-
     return (
         <div className="layout">
             
-            <Header className='header' titleApp={titleApp} onLogout={onLogout}/>
+            <Header className='header'/>
         
             
             <main className='main'>

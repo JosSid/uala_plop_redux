@@ -10,6 +10,8 @@ import AdsPage from './components/ads/AdsPage.js';
 import RequireAuth from './components/auth/RequireAuth.js';
 import NotFound from './components/common/error/notFound/NotFound.js';
 import Main from './components/layout/Main.js';
+import { AuthContextProvider } from './components/auth/Context.js';
+
 function App({ haveToken }) {
   const [isLogged, setIsLogged] = useState(haveToken);
 
@@ -22,53 +24,58 @@ function App({ haveToken }) {
     setIsLogged(false);
   };
 
+
   return (
     <div className='app'>
-      <Routes>
-        <Route
-          path='/login'
-          element={
-            !isLogged ? (
-              <LoginPage titleApp={titleApp} onLogin={handleLogin} />
-            ) : (
-              <Navigate to='/ads' />
-            )
-          }
-        />
-        ;
-        <Route path='/ads' element={
-              <RequireAuth isLogged={isLogged}>
-                <Layout
-                  titleApp={titleApp}
-                  isLogged={isLogged}
-                  onLogout={handleLogout}
-                />
+      <AuthContextProvider value={{isLogged, handleLogin, handleLogout,titleApp}}>
+        <Routes>
+          <Route
+            path='/login'
+            element={
+              !isLogged ? (
+                <LoginPage titleApp={titleApp} onLogin={handleLogin} />
+              ) : (
+                <Navigate to='/ads' />
+              )
+            }
+          />
+          ;
+          <Route
+            path='/ads'
+            element={
+              <RequireAuth>
+                <Layout/>               
               </RequireAuth>
-            }>
+            }
+          >
+            <Route
+              index
+              element={<Main title='Home' children={<AdsPage />} />}
+            />
+            <Route
+              path=':id'
+              element={
+                <Main title='Advertisment Detail' children={<AdPage />} />
+              }
+            />
+            ;
+            <Route path='new' element={<Main children={<NewAdPage />} />} />;
+          </Route>
           <Route
-            index
-              element={<Main title='Home' children={<AdsPage/>} />}
-          />
-          <Route
-            path=':id'
-            element={<Main title='Advertisment Detail' children={<AdPage/>} />}
+            path='/'
+            element={
+              isLogged ? <Navigate to='/ads' /> : <Navigate to='/login' />
+            }
           />
           ;
           <Route
-            path='new'
-            element={<Main children={<NewAdPage/>} />}
-          
+            path='/404'
+            element={<NotFound error={{ message: '404' }} />}
           />
           ;
-        </Route>
-        <Route
-          path='/'
-          element={isLogged ? <Navigate to='/ads' /> : <Navigate to='/login' />}
-        />
-        ;
-        <Route path='/404' element={<NotFound error={{ message: '404' }} />} />;
-        <Route path='*' element={<Navigate to='/404' />} />
-      </Routes>
+          <Route path='*' element={<Navigate to='/404' />} />
+        </Routes>
+      </AuthContextProvider>
     </div>
   );
 }

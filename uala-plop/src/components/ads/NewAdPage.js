@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
 import './NewAdPage.css'
 
-const NewAdPage = ({ titleApp, ...props }) => {
+const NewAdPage = () => {
   const [name, setName] = useState('');
   const [sale, setSale] = useState(true);
   const [price, setPrice] = useState('');
