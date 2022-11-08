@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAdId, deleteAd } from './service.js';
 import Spinner from '../common/spinner/Spinner.js';
 import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Button from '../common/Button.js';
 import Confirm from '../common/confirm_element/Confirm.js';
+import AdModel from './AdModel.js';
 const AdPage = () => {
   const { id } = useParams();
 
@@ -18,18 +19,7 @@ const AdPage = () => {
 
   const handleConfirm = () => setConfirm(true)
 
-  const getAd = async (id) => {
-    try {
-      resetError();
-      const data = await getAdId(id);
-      setAd(data);
-    } catch (err) {
-      if (err.status === 404) {
-        navigate('404');
-      }
-      setError(err);
-    }
-  };
+
 
   /*   const getUser = async () =>{
     try{
@@ -60,27 +50,26 @@ const AdPage = () => {
   const resetError = () => setError(null);
 
   useEffect(() => {
+    const getAd = async (id) => {
+      try {
+        resetError();
+        const data = await getAdId(id);
+        setAd(data);
+      } catch (err) {
+        if (err.status === 404) {
+          navigate('404');
+        }
+        setError(err);
+      }
+    };
     getAd(id);
-  }, [id]);
+  }, [id, navigate]);
 
   return (
     <div className='ads__page'>
       {ad ? (
         <div key={ad.id} className='ad__container'>
-          <h2>{ad.sale ? 'Vendo' : 'Busco'}</h2>
-          <h3>{ad.name}</h3>
-          <img
-            src={
-              ad.photo || 'https://shop.sarmy.net.nz/missing_product_image.jpg'
-            }
-            alt='Foto'
-          />
-          <h3>{ad.price}</h3>
-          <h6>Categorias</h6>
-          <p>
-            {ad.tags &&
-              ad.tags.map((tag) => <span key={tag}>{` -${tag}- `}</span>)}
-          </p>
+          <AdModel ad={ad} />
           {!isDeleted && !confirm && (<Button variant='primary' onClick={handleConfirm}>
             Delete Ad
           </Button>)}

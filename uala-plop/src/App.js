@@ -9,6 +9,7 @@ import AdPage from './components/ads/AdPage.js';
 import AdsPage from './components/ads/AdsPage.js';
 import RequireAuth from './components/auth/RequireAuth.js';
 import NotFound from './components/common/error/notFound/NotFound.js';
+import Main from './components/layout/Main.js';
 function App({ haveToken }) {
   const [isLogged, setIsLogged] = useState(haveToken);
 
@@ -35,48 +36,28 @@ function App({ haveToken }) {
           }
         />
         ;
-        <Route path='/ads'>
-          <Route
-            index
-            element={
+        <Route path='/ads' element={
               <RequireAuth isLogged={isLogged}>
                 <Layout
                   titleApp={titleApp}
-                  title='hola'
                   isLogged={isLogged}
                   onLogout={handleLogout}
-                  children={<AdsPage />}
                 />
               </RequireAuth>
-            }
+            }>
+          <Route
+            index
+              element={<Main title='Home' children={<AdsPage/>} />}
           />
           <Route
             path=':id'
-            element={
-              <RequireAuth isLogged={isLogged}>
-                <Layout
-                  titleApp={titleApp}
-                  title='anuncio'
-                  isLogged={isLogged}
-                  onLogout={handleLogout}
-                  children={<AdPage />}
-                />
-              </RequireAuth>
-            }
+            element={<Main title='Advertisment Detail' children={<AdPage/>} />}
           />
           ;
           <Route
             path='new'
-            element={
-              <RequireAuth isLogged={isLogged}>
-                <Layout
-                  titleApp={titleApp}
-                  isLogged={isLogged}
-                  onLogout={handleLogout}
-                  children={<NewAdPage />}
-                />
-              </RequireAuth>
-            }
+            element={<Main children={<NewAdPage/>} />}
+          
           />
           ;
         </Route>

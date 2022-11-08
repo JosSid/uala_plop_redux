@@ -18,7 +18,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
   const navigate = useNavigate()
 
   const handleChangeName = (event) => setName(event.target.value);
-  const handleChangeSale = (event) => setSale(event.target.value);
+  const handleChangeSale = () => setSale(!sale);
   const handleChangePrice = (event) => setPrice(parseInt(event.target.value));
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
@@ -70,10 +70,10 @@ const NewAdPage = ({ titleApp, ...props }) => {
         />
         <fieldset onChange={handleChangeSale}>
           <legend>For sale or Wanted :</legend>
-          <label htmlFor=''>For Sale</label>
-          <input type='radio' name='sale' value={true} defaultChecked />
-          <label htmlFor=''>Wanted</label>
-          <input type='radio' name='sale' value={false} />
+          <label htmlFor='sale'>For Sale</label>
+          <input type='radio' name='sale' id='sale' value={sale} defaultChecked />
+          <label htmlFor='wanted'>Wanted</label>
+          <input type='radio' name='sale' id='wanted' value={sale} />
         </fieldset>
         <FormField
           type='number'
@@ -108,7 +108,7 @@ const NewAdPage = ({ titleApp, ...props }) => {
           </optgroup>
         </select>
         <label htmlFor='photo'>Upload picture</label>
-        <input onChange={handlePhoto} type='file' name='photo' id='photo' />
+        <input onChange={handlePhoto} type='file' name='photo' id='photo' photo={photo} />
         {isButtonEnabled() && <Button
           type='submit'
           variant='primary'

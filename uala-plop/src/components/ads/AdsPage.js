@@ -1,31 +1,34 @@
 import { useEffect, useState } from 'react';
 import { getAds } from './service';
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/confirm_element/Confirm.js';
 import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
+import AdModel from './AdModel.js';
 
 const AdsPage = () => {
   const [ads, setAds] = useState([]);
-  const [confirm,setConfirm] = useState(true);
+  const [confirm, setConfirm] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const getListAds = async () => {
-    try{
+    try {
       const listAds = await getAds();
 
       setAds(listAds);
-    }catch(err){
-      setError(err)
+    } catch (err) {
+      setError(err);
     }
-
   };
 
-  const resetError = () => setError(null)
+  const resetError = () => setError(null);
 
   const goToCreate = () => navigate('/ads/new');
-  const notConfirm = () => setConfirm(false)
+  const notConfirm = () => {
+    setConfirm(false);
+    navigate('/');
+  };
 
   const message = () => {
     return (
@@ -33,8 +36,8 @@ const AdsPage = () => {
         <h2>Not Advertisments for you</h2>
         <h2>Go to create your advertisment?</h2>
       </div>
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     getListAds();
@@ -42,20 +45,17 @@ const AdsPage = () => {
 
   return (
     <div className='ads__page'>
-      {ads.length < 1 && confirm && <Confirm confirm={goToCreate} notConfirm={notConfirm}>{message()}</Confirm>}
+      {ads.length < 1 && confirm && (
+        <Confirm confirm={goToCreate} notConfirm={notConfirm}>
+          {message()}
+        </Confirm>
+      )}
       {ads.map((ad) => (
         <Link to={`/ads/${ad.id}`} key={ad.id} className='ad__container'>
-          <h3>{ad.sale ? 'Vendo' : 'Busco'}</h3>
-          <h3>{ad.name}</h3>
-          <img src={ad.photo ||'https://shop.sarmy.net.nz/missing_product_image.jpg'} alt='Foto' />
-          <h3>{ad.price}</h3>
-          <h6>Categorias</h6>
-          {ad.tags.map((tag) => (
-            <span key={tag}>{` -${tag}- `}</span>
-            ))}
+          <AdModel ad={ad} />
         </Link>
       ))}
-      {error && <ErrorDisplay error={error} resetError={resetError}/>}
+      {error && <ErrorDisplay error={error} resetError={resetError} />}
     </div>
   );
 };
