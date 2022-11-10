@@ -5,6 +5,7 @@ import Confirm from '../common/confirm_element/Confirm.js';
 import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import AdModel from './AdModel.js';
+import FilterAds from '../common/filter_ads/FilterAds.js';
 
 const AdsPage = () => {
   const [ads, setAds] = useState([]);
@@ -39,9 +40,12 @@ const AdsPage = () => {
     );
   };
 
+  const filterAds = (ads) => setAds(ads);
+
+
   useEffect(() => {
-    getListAds();
-  }, []);
+    ads.length === 0 && getListAds();
+  }, [ads.length]);
 
   return (
     <div className='ads__page'>
@@ -50,6 +54,7 @@ const AdsPage = () => {
           {message()}
         </Confirm>
       )}
+      <FilterAds ads={ads} filterAds={filterAds}/>
       {ads.map((ad) => (
         <Link to={`/ads/${ad.id}`} key={ad.id} className='ad__container'>
           <AdModel ad={ad} />
