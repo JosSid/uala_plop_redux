@@ -17,9 +17,7 @@ const AdPage = () => {
   const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
 
-  const handleConfirm = () => setConfirm(true)
-
-
+  const handleConfirm = () => setConfirm(true);
 
   /*   const getUser = async () =>{
     try{
@@ -36,11 +34,11 @@ const AdPage = () => {
       setIsFetching(true);
 
       deleteAd(id);
-      
+
       setIsDeleted(true);
 
       setTimeout(() => {
-        navigate('/')
+        navigate('/');
       }, 500);
     } catch (err) {
       setError(err);
@@ -70,10 +68,18 @@ const AdPage = () => {
       {ad ? (
         <div key={ad.id} className='ad__container'>
           <AdModel ad={ad} />
-          {!isDeleted && !confirm && (<Button variant='primary' onClick={handleConfirm}>
-            Delete Ad
-          </Button>)}
-          {confirm && !isDeleted && <Confirm children='Are you sure for delete ad?' confirm={deletedAd} notConfirm={()=> setConfirm(false)}></Confirm>}
+          {!isDeleted && !confirm && (
+            <Button variant='primary' onClick={handleConfirm}>
+              Delete Ad
+            </Button>
+          )}
+          {confirm && !isDeleted && (
+            <Confirm
+              children='Are you sure for delete ad?'
+              confirm={deletedAd}
+              notConfirm={() => setConfirm(false)}
+            ></Confirm>
+          )}
         </div>
       ) : (
         <Spinner />

@@ -5,10 +5,10 @@ import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
-import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js'
-import {useAuthContext} from './Context.js';
+import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
+import { useAuthContext } from './Context.js';
 const LoginPage = () => {
-  const { handleLogin, titleApp } = useAuthContext()
+  const { handleLogin, titleApp } = useAuthContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
@@ -40,7 +40,10 @@ const LoginPage = () => {
 
   return (
     <div className='loginPage'>
-      <h1 className='loginPage-title'>{'Welcome to'} <br />{`${titleApp}`}</h1>
+      <h1 className='loginPage-title'>
+        {'Welcome to'} <br />
+        {`${titleApp}`}
+      </h1>
       <form onSubmit={handleSubmit}>
         <FormField
           type='text'
@@ -61,19 +64,20 @@ const LoginPage = () => {
         />
 
         <Button
-          type="submit"
-          variant="primary"
-          className="loginForm-submit"
+          type='submit'
+          variant='primary'
+          className='loginForm-submit'
           disabled={!isEnabledButton()}
         >
           Log in
         </Button>
-        <CheckBox name="checklog" label="Check for recording Login" onChange={(event) => setCheck(event.target.checked)}/>
-
+        <CheckBox
+          name='checklog'
+          label='Check for recording Login'
+          onChange={(event) => setCheck(event.target.checked)}
+        />
       </form>
-      {error && (
-       <ErrorDisplay error={error} resetError={resetError} />
-      )}
+      {error && <ErrorDisplay error={error} resetError={resetError} />}
     </div>
   );
 };

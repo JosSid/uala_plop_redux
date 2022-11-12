@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
 import { logout } from './service.js';
 
 const AuthContext = createContext();
@@ -7,13 +7,11 @@ export const AuthContextConsumer = AuthContext.Consumer;
 
 AuthContext.displayName = 'App';
 
-export const AuthContextProvider = ({haveToken, children}) => {
+export const AuthContextProvider = ({ haveToken, children }) => {
+  const titleApp = 'Uala Plop';
 
-    const titleApp = 'Uala Plop';
+  const [isLogged, setIsLogged] = useState(haveToken);
 
-    const [isLogged, setIsLogged] = useState(haveToken);
-
-    
   const handleLogin = () => setIsLogged(true);
 
   const handleLogout = () => {
@@ -22,17 +20,17 @@ export const AuthContextProvider = ({haveToken, children}) => {
   };
 
   return (
-    <AuthContext.Provider value={{isLogged, handleLogin, handleLogout, titleApp}}>
-        {children}
+    <AuthContext.Provider
+      value={{ isLogged, handleLogin, handleLogout, titleApp }}
+    >
+      {children}
     </AuthContext.Provider>
-  )
+  );
+};
 
-}
-
-export const useAuthContext = () =>{
-    const value = useContext(AuthContext);
-    return value;
+export const useAuthContext = () => {
+  const value = useContext(AuthContext);
+  return value;
 };
 
 export default AuthContext;
-

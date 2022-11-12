@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-const AdModel = ({ad}) => {
+const AdModel = ({ ad }) => {
   return (
     <Fragment>
       <h2>{ad.sale ? 'Vendo' : 'Busco'}</h2>
