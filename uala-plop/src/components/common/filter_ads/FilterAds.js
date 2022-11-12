@@ -3,43 +3,46 @@ import './FilterAds.css';
 import FormField from '../formField/FormField.js';
 import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
-
-const FilterAds = ({ads, filterAds}) => {
+import Button from '../Button.js';
+import storage from '../../../utils/storage.js';
+const FilterAds = ({ isSearching }) => {
   const [active, setActive] = useState(false);
-  const [name, setName] = useState('');
-  const [sale, setSale] = useState('all');
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(1000);
-  const [tags, setTags] = useState([]);
-  
-  const listAds = [...ads]
-  const filter = () => {
+  const [name, setName] = useState(storage.get('name') || '');
+  const [sale, setSale] = useState(storage.get('sale') || 'all');
+  const [range, setRange] = useState(storage.get('range') || [0, 1100]);
+  const [tags, setTags] = useState(storage.get('tags') || null);
 
-    let copyNewAds = [...ads].filter(e => e.name.toLowerCase().includes(name));
+  const filter = (event) => {
+    event.preventDefault();
+    isSearching(!active);
+    setActive(false);
+  };
 
-    !name.length ? filterAds(listAds) : filterAds(copyNewAds)
-  }
-  console.log(name.length)
+  const handleActive = () => {
+    setActive(!active);
+    isSearching(false);
+  };
 
-  const handleActive = () => setActive(!active);
   const handleName = (event) => setName(event.target.value);
   const handleSale = (event) => {
     setSale(event.target.value);
   };
 
-  const handleMin = (event) => setMin(event);
-  const handleMax = (event) => setMax(event);
+  const handleRange = (event) => setRange(event);
+
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
     const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
   };
 
-
   useEffect(() => {
-    min > max && setMax(min);
-    filter()
-  }, [min, max,name]);
+    storage.set('name', name);
+    storage.set('sale', sale);
+    storage.set('range', range);
+
+    storage.set('tags', tags);
+  }, [range, name, sale, tags]);
 
   //Necesitare un efecto para cargar las preferencias de localStorage
   return (
@@ -48,7 +51,7 @@ const FilterAds = ({ads, filterAds}) => {
         Filter Advertisments 🔍
       </div>
       {active && (
-        <div className='filter__form'>
+        <form onSubmit={filter} className='filter__form'>
           <fieldset onChange={handleSale}>
             <legend>For sale or Wanted :</legend>
             <label htmlFor='sale'>All</label>
@@ -57,10 +60,10 @@ const FilterAds = ({ads, filterAds}) => {
               name='sale'
               id='all'
               value={'all'}
-              defaultChecked
+              /*defaultChecked*/
             />
             <label htmlFor='sale'>For Sale</label>
-            <input type='radio' name='sale' id='sale' value={'sale'} />
+            <input type='radio' name='sale' id='sale' value={'forSale'} />
             <label htmlFor='wanted'>Wanted</label>
             <input type='radio' name='sale' id='wanted' value={'wanted'} />
           </fieldset>
@@ -71,33 +74,23 @@ const FilterAds = ({ads, filterAds}) => {
             onChange={handleName}
             value={name}
           />
-          <label htmlFor=''>Min</label>
+          <label htmlFor=''>Price Range</label>
           <Range
             min={0}
-            max={1000}
+            max={1100}
             step={100}
-            onChange={handleMin}
+            onChange={handleRange}
             marks={{
               0: { label: 0 },
               100: { label: '100' },
               500: { label: 500 },
-              1000: { label: '1000+' },
+              1000: { label: '1000' },
+              1100: { label: 'No limit' },
             }}
+            range={[0, 1100]}
+            defaultValue={range}
           />
-          <label htmlFor=''>Max</label>
-          <Range
-            value={max}
-            min={0}
-            max={1000}
-            step={100}
-            onChange={handleMax}
-            marks={{
-              0: { label: 0 },
-              100: { label: '100' },
-              500: { label: 500 },
-              1000: { label: '1000+' },
-            }}
-          />
+
           <select
             name='tags'
             id='tags'
@@ -119,7 +112,8 @@ const FilterAds = ({ads, filterAds}) => {
               </option>
             </optgroup>
           </select>
-        </div>
+          <Button variant='primary' type='submit' />
+        </form>
       )}
     </div>
   );
