@@ -28,7 +28,7 @@ const AdsPage = () => {
   };
 
   const getFilterAds = () => {
-    setAds(copyAds)
+    setAds(copyAds);
     let filterAds = copyAds;
     const name = storage.get('name');
     const sale = storage.get('sale');
@@ -61,15 +61,16 @@ const AdsPage = () => {
         (e) => JSON.stringify(e.tags) === JSON.stringify(tags)
       );
       storage.set('tags', null);
-    } 
+      storage.set('sale', 'all');
+    }
 
     setAds(filterAds);
   };
 
   const isSearching = (bool) => {
     setSearch(bool);
-    setCharge(false)
-  }
+    setCharge(false);
+  };
   const resetError = () => setError(null);
 
   const goToCreate = () => navigate('/ads/new');
@@ -91,6 +92,7 @@ const AdsPage = () => {
     !charge && !search && getListAds();
     charge && search && setAds(copyAds);
     charge && !search && getFilterAds();
+    // eslint-disable-next-line
   }, [charge, search, copyAds]);
 
   return (

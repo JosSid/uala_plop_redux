@@ -40,11 +40,9 @@ const FilterAds = ({ isSearching }) => {
     storage.set('name', name);
     storage.set('sale', sale);
     storage.set('range', range);
-
     storage.set('tags', tags);
   }, [range, name, sale, tags]);
 
-  //Necesitare un efecto para cargar las preferencias de localStorage
   return (
     <div className='filter__container'>
       <div className='filter__button' onClick={handleActive}>
@@ -60,7 +58,7 @@ const FilterAds = ({ isSearching }) => {
               name='sale'
               id='all'
               value={'all'}
-              /*defaultChecked*/
+              defaultChecked
             />
             <label htmlFor='sale'>For Sale</label>
             <input type='radio' name='sale' id='sale' value={'forSale'} />
