@@ -36,7 +36,12 @@ const NewAdPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData();
+    formData.append('name',name)
+    formData.append('sale',sale)
+    formData.append('price',price)
+    formData.append('photo',photo[0])
+    formData.append('tags',tags)
     resetError();
     setIsFetching(true);
     try {
