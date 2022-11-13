@@ -76,6 +76,10 @@ const AdsPage = () => {
   const goToCreate = () => navigate('/ads/new');
   const notConfirm = () => {
     setConfirm(false);
+    storage.remove('name');
+    storage.remove('sale');
+    storage.remove('tags');
+    storage.remove('range');
     navigate('/');
   };
 

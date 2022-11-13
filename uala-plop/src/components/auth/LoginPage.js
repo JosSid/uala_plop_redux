@@ -40,16 +40,19 @@ const LoginPage = () => {
 
   return (
     <div className='loginPage'>
-      <h1 className='loginPage-title'>
+      <h1 className='loginPage__title'>
         {'Welcome to'} <br />
         {`${titleApp}`}
       </h1>
-      <form onSubmit={handleSubmit}>
+      <h4 className='loginPage__title'>
+        Please,login for search or create your advertismen
+      </h4>
+      <form className='loginPage__form' onSubmit={handleSubmit}>
         <FormField
           type='text'
           name='username'
           label='eMail'
-          className='loginForm-field'
+          className='loginForm__field'
           onChange={handleChangeEMail}
           value={email}
         />
@@ -58,15 +61,14 @@ const LoginPage = () => {
           type='password'
           name='password'
           label='password'
-          className='loginForm-field'
+          className='loginForm__field'
           onChange={handleChangePassword}
           value={password}
         />
 
         <Button
           type='submit'
-          variant='primary'
-          className='loginForm-submit'
+          className='loginForm__submit'
           disabled={!isEnabledButton()}
         >
           Log in
