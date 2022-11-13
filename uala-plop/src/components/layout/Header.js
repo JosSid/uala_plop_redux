@@ -1,5 +1,5 @@
 import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
-import './styles/Header.css';
+import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
 import { useState } from 'react';
 import { useAuthContext } from '../auth/Context.js';
@@ -15,22 +15,17 @@ const Header = () => {
   const message = 'Are you sure for Logout?';
 
   return (
-    <header className='header__main'>
-      <div className='header__container'>
-        <div className='header__title'>
+    <header className={styles.header__main}>
+      <div className={styles.header__container}>
+        <div className={styles.header__title}>
           <h1>{titleApp}</h1>
         </div>
 
-        <BurgerMenu
-          confirm={confirm}
-          className='header__menu'
-          onLogout={handleConfirm}
-        />
-        {/*hacerle variante para que siempre sea boton o que cambie a nav*/}
+        <BurgerMenu confirm={confirm} onLogout={handleConfirm} />
       </div>
       {confirm && (
         <Confirm
-          className='header__confirm'
+          className={styles.header__confirm}
           children={message}
           confirm={handleLogout}
           notConfirm={notConfirm}

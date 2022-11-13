@@ -40,4 +40,13 @@
     width: 100%;
   }
 
+  .footer {
+    bottom: 0px;
+    text-align: center;
+    height: 30px;
+    margin-top: 20px;
+    color: whitesmoke;
+    background-color: rgb(17, 14, 14);
+}
+
 

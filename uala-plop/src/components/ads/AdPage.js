@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAdId, deleteAd } from './service.js';
 import Spinner from '../common/spinner/Spinner.js';
-import './AdsPage.css';
+import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Button from '../common/Button.js';
 import Confirm from '../common/confirm_element/Confirm.js';
@@ -54,9 +54,9 @@ const AdPage = () => {
   }, [id, navigate]);
 
   return (
-    <div className='ads__page'>
+    <div className={styles.ads__page}>
       {ad ? (
-        <div key={ad.id} className='ad__container'>
+        <div key={ad.id} className={styles.ad__container}>
           <AdModel ad={ad} />
           {!isDeleted && !confirm && (
             <Button variant='primary' onClick={handleConfirm}>

@@ -14,6 +14,11 @@
     border-top-right-radius: 10px;
 }
 
+.filter__inactive{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 
 .filter__active:hover{
     background-color: rgba(17,14,14, 0.6);

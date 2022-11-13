@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './LoginPage.css';
+import styles from './LoginPage.module.css';
 import Button from '../common/Button.js';
 import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
@@ -39,20 +39,20 @@ const LoginPage = () => {
   const isEnabledButton = () => email && password && !isFetching;
 
   return (
-    <div className='loginPage'>
-      <h1 className='loginPage__title'>
+    <div className={styles.loginPage}>
+      <h1 className={styles.loginPage__title}>
         {'Welcome to'} <br />
         {`${titleApp}`}
       </h1>
-      <h4 className='loginPage__title'>
-        Please,login for search or create your advertismen
+      <h4 className={styles.loginPage__title}>
+        Please,login for search or create your advertisment
       </h4>
-      <form className='loginPage__form' onSubmit={handleSubmit}>
+      <form className={styles.loginPage__form} onSubmit={handleSubmit}>
         <FormField
           type='text'
           name='username'
           label='eMail'
-          className='loginForm__field'
+          className={styles.loginForm__field}
           onChange={handleChangeEMail}
           value={email}
         />
@@ -61,14 +61,14 @@ const LoginPage = () => {
           type='password'
           name='password'
           label='password'
-          className='loginForm__field'
+          className={styles.loginForm__field}
           onChange={handleChangePassword}
           value={password}
         />
 
         <Button
           type='submit'
-          className='loginForm__submit'
+          className={styles.loginForm__submit}
           disabled={!isEnabledButton()}
         >
           Log in
@@ -80,6 +80,7 @@ const LoginPage = () => {
         />
       </form>
       {error && <ErrorDisplay error={error} resetError={resetError} />}
+      <footer className={styles.footer}>@JosSid2022</footer>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 .header__main { 
     top: 0;
     position: sticky;
+    z-index: 999;
 }
 
 .header__container {
@@ -17,6 +18,9 @@
     margin-inline-start: 20px;
     color: whitesmoke;
 }
+
+
+
 
 
 

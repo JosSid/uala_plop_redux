@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './FilterAds.css';
+import styles from'./FilterAds.module.css';
 import FormField from '../formField/FormField.js';
 import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -45,12 +45,12 @@ const FilterAds = ({ isSearching }) => {
   }, [range, name, sale, tags]);
 
   return (
-    <div className='filter__container'>
-      <div className='filter__active' onClick={handleActive}>
+    <div className={styles.filter__container}>
+      <div className={`${styles.filter__active} ${!active && styles.filter__inactive}`} onClick={handleActive}>
         Filter Advertisments 🔍
       </div>
       {active && (
-        <form onSubmit={filter} className='filter__form'>
+        <form onSubmit={filter} className={styles.filter__form}>
           <fieldset onChange={handleSale}>
             <legend>For sale or Wanted :</legend>
             <label htmlFor='sale'>All</label>

@@ -5,7 +5,7 @@ import { createAd } from './service.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
-import './NewAdPage.css';
+import styles from './NewAdPage.module.css';
 
 const NewAdPage = () => {
   const [name, setName] = useState('');
@@ -51,15 +51,14 @@ const NewAdPage = () => {
   };
 
   return (
-    <div className='newAdPage__container'>
+    <div className={styles.newAdPage__container}>
       {isFetching && <Spinner />}
       <h1>Create Advertisment</h1>
-      <form className='form__container' onSubmit={handleSubmit}>
+      <form className={styles.form__container} onSubmit={handleSubmit}>
         <FormField
           type='text'
           name='name'
           label='Title Advertisment'
-          className='loginForm-field'
           onChange={handleChangeName}
           value={name}
           placeholder='Required field*'
@@ -81,7 +80,6 @@ const NewAdPage = () => {
           type='number'
           name='price'
           label='Price'
-          className='loginForm-field'
           onChange={handleChangePrice}
           value={price}
           placeholder='Required field*'
@@ -110,7 +108,7 @@ const NewAdPage = () => {
           </optgroup>
         </select>
         <label htmlFor='photo'>Upload picture</label>
-        <p className='recomendation__size'>*Recomended size 300px / 300px</p>
+        <p className={styles.recomendation__size}>*Recomended size 300px / 300px</p>
         <input
           onChange={handlePhoto}
           type='file'
@@ -121,7 +119,6 @@ const NewAdPage = () => {
         {isButtonEnabled() && (
           <Button
             type='submit'
-
             className='loginForm-submit'
             disabled={!isButtonEnabled()}
           >

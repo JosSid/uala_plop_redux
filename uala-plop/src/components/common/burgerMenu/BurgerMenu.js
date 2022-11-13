@@ -1,4 +1,4 @@
-import './BurgerMenu.css';
+import styles from './BurgerMenu.module.css';
 import burguerPic from '../../../assets/menu.svg';
 import Button from '../Button.js';
 import { Link } from 'react-router-dom';
@@ -11,17 +11,17 @@ const BurgerMenu = ({ onLogout }) => {
   }; //cambiar funcion a estado
 
   return (
-    <nav className='burger__menu__wrapper'>
-      <label htmlFor='menu' className='burger__menu__label'>
-        <img src={burguerPic} className='burger__menu__img' alt='Menu' />
+    <nav className={styles.burger__menu__wrapper}>
+      <label htmlFor='menu' className={styles.burger__menu__label}>
+        <img src={burguerPic} className={styles.burger__menu__img} alt='Menu' />
       </label>
       <input
         ref={checkBoxElement}
         type='checkbox'
         id='menu'
-        className='burger__menu__input'
+        className={styles.burger__menu__input}
       />
-      <div className='burger__menu__list' onClick={offCheck}>
+      <div className={styles.burger__menu__list} onClick={offCheck}>
         <Button
           as={Link}
           to='/'

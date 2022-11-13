@@ -1,11 +1,11 @@
 import Button from '../Button.js';
-import './Confirm.css';
+import styles from './Confirm.module.css';
 const Confirm = ({ children, confirm, notConfirm }) => {
   return (
-    <div className='confirm__container'>
-      <div className='confirm__message'>{children}</div>
+    <div className={styles.confirm__container}>
+      <div className={styles.confirm__message}>{children}</div>
 
-      <div className='confirm__button__container'>
+      <div className={styles.confirm__button__container}>
         <Button onClick={confirm} variant='primary'>
           Yes
         </Button>

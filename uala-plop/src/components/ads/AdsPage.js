@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAds } from './service';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/confirm_element/Confirm.js';
-import './AdsPage.css';
+import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import AdModel from './ad_model/AdModel.js';
 import FilterAds from '../common/filter_ads/FilterAds.js';
@@ -100,7 +100,7 @@ const AdsPage = () => {
   }, [charge, search, copyAds]);
 
   return (
-    <div className='ads__page'>
+    <div className={styles.ads__page}>
       {ads.length < 1 && confirm && (
         <Confirm confirm={goToCreate} notConfirm={notConfirm}>
           {message()}
@@ -108,8 +108,8 @@ const AdsPage = () => {
       )}
       <FilterAds isSearching={isSearching} />
       {ads.map((ad) => (
-        <div  key={ad.id} className='ad__container'>
-          <Link className='ad__link' to={`/ads/${ad.id}`}>
+        <div  key={ad.id} className={styles.ad__container}>
+          <Link className={styles.ad__link} to={`/ads/${ad.id}`}>
             <AdModel ad={ad} />
           </Link>
         </div>

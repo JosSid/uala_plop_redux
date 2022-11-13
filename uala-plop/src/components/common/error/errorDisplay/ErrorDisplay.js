@@ -1,8 +1,8 @@
-import './ErrorDisplay.css';
+import styles from './ErrorDisplay.module.css';
 
 const ErrorDisplay = ({ resetError, error }) => {
   return (
-    <div className='loginPage-error' onClick={resetError}>
+    <div className={styles.loginPage__error} onClick={resetError}>
       {error.message}
     </div>
   );
