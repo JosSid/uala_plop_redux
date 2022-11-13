@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/confirm_element/Confirm.js';
 import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import AdModel from './AdModel.js';
+import AdModel from './ad_model/AdModel.js';
 import FilterAds from '../common/filter_ads/FilterAds.js';
 import storage from '../../utils/storage.js';
 const AdsPage = () => {
@@ -104,9 +104,11 @@ const AdsPage = () => {
       )}
       <FilterAds isSearching={isSearching} />
       {ads.map((ad) => (
-        <Link to={`/ads/${ad.id}`} key={ad.id} className='ad__container'>
-          <AdModel ad={ad} />
-        </Link>
+        <div  key={ad.id} className='ad__container'>
+          <Link className='ad__link' to={`/ads/${ad.id}`}>
+            <AdModel ad={ad} />
+          </Link>
+        </div>
       ))}
       {error && <ErrorDisplay error={error} resetError={resetError} />}
     </div>

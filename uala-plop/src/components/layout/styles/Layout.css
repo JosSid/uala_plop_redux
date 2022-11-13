@@ -1,11 +1,10 @@
 
 
 .footer {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: center;
-    min-height: 300px;
-    
-    color: rgb(17, 14, 14);
+    bottom: 0px;
+    text-align: center;
+    height: 30px;
+    margin-top: 20px;
+    color: whitesmoke;
+    background-color: rgb(17, 14, 14);
 }

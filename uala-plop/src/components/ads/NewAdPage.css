@@ -4,6 +4,10 @@
     align-items: center;
     background-color: rgb(17, 14, 14);
     color: whitesmoke;
+    width: 300px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .form__container {
@@ -12,4 +16,9 @@
     align-items: center;
     justify-content: space-around;
     gap:20px;
+}
+
+.recomendation__size{
+    color: red;
+    font-size: 10px;
 }

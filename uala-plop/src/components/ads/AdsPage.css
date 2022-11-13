@@ -1,9 +1,20 @@
 .ads__page {
-    min-height: 30px;
-    background-color: aqua;
+
+    background-color: whitesmoke;
 }
 
 .ad__container {
+    margin: auto;
+    width: 300px;
+    min-height: 500px;
+    margin-top: 10px;
+    border: 2px rgb(17,14,14) solid;
+    border-radius: 20px;
+    padding-bottom: 10px;
+}
+
+.ad__link{
     text-decoration: none;
     color: rgb(17, 14, 14);
 }
+

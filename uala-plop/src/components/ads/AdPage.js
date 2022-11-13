@@ -6,7 +6,7 @@ import './AdsPage.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Button from '../common/Button.js';
 import Confirm from '../common/confirm_element/Confirm.js';
-import AdModel from './AdModel.js';
+import AdModel from './ad_model/AdModel.js';
 const AdPage = () => {
   const { id } = useParams();
 
@@ -18,16 +18,6 @@ const AdPage = () => {
   const navigate = useNavigate();
 
   const handleConfirm = () => setConfirm(true);
-
-  /*   const getUser = async () =>{
-    try{
-      resetError();
-      const user = await dataOwner();
-      return user.id
-    }catch(err){
-      setError(err)
-    }
-  } */
 
   const deletedAd = async () => {
     try {

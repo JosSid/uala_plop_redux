@@ -110,6 +110,7 @@ const NewAdPage = () => {
           </optgroup>
         </select>
         <label htmlFor='photo'>Upload picture</label>
+        <p className='recomendation__size'>*Recomended size 300px / 300px</p>
         <input
           onChange={handlePhoto}
           type='file'
@@ -120,7 +121,7 @@ const NewAdPage = () => {
         {isButtonEnabled() && (
           <Button
             type='submit'
-            variant='primary'
+
             className='loginForm-submit'
             disabled={!isButtonEnabled()}
           >
