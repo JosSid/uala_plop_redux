@@ -5,17 +5,25 @@ import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Button from '../Button.js';
 import storage from '../../../utils/storage.js';
+import { getTags } from './service';
 const FilterAds = ({ isSearching }) => {
   const [active, setActive] = useState(false);
-  const [name, setName] = useState(storage.get('name') || '');
-  const [sale, setSale] = useState(storage.get('sale') || 'all');
-  const [range, setRange] = useState(storage.get('range') || [0, 1100]);
-  const [tags, setTags] = useState(storage.get('tags') || null);
+  const [name, setName] = useState('');
+  const [sale, setSale] = useState('');
+  const [range, setRange] = useState([0, 1100]);
+  const [tags, setTags] = useState([]);
+  const [listTags, setListTags] = useState([]);
+
+  const getListTags = async() => {
+    const listTags = await getTags();
+    setListTags(listTags)
+  }
 
   const filter = (event) => {
     event.preventDefault();
     isSearching(!active);
     setActive(false);
+    !sale && setSale('all')
   };
 
   const handleActive = () => {
@@ -25,9 +33,8 @@ const FilterAds = ({ isSearching }) => {
   };
 
   const handleName = (event) => setName(event.target.value);
-  const handleSale = (event) => {
-    setSale(event.target.value);
-  };
+  const handleSale = (event) => setSale(event.target.value);
+  
 
   const handleRange = (event) => setRange(event);
 
@@ -35,14 +42,12 @@ const FilterAds = ({ isSearching }) => {
     const selectedTags = event.target.selectedOptions;
     const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
+    console.log(finallyTags)
   };
 
   useEffect(() => {
-    storage.set('name', name);
-    storage.set('sale', sale);
-    storage.set('range', range);
-    storage.set('tags', tags);
-  }, [range, name, sale, tags]);
+    getListTags();
+  }, []);
 
   return (
     <div className={styles.filter__container}>
@@ -51,7 +56,7 @@ const FilterAds = ({ isSearching }) => {
       </div>
       {active && (
         <form onSubmit={filter} className={styles.filter__form}>
-          <fieldset onChange={handleSale}>
+          <fieldset>
             <legend>For sale or Wanted :</legend>
             <label htmlFor='sale'>All</label>
             <input
@@ -59,12 +64,13 @@ const FilterAds = ({ isSearching }) => {
               name='sale'
               id='all'
               value={'all'}
-              defaultChecked
+              onChange={handleSale}
+             checked={!sale || sale === 'all' ? true : false}
             />
             <label htmlFor='sale'>For Sale</label>
-            <input type='radio' name='sale' id='sale' value={'forSale'} />
+            <input type='radio' name='sale' id='sale' value={'forSale'}  onChange={handleSale} checked={sale === 'forSale' ? true : false}/>
             <label htmlFor='wanted'>Wanted</label>
-            <input type='radio' name='sale' id='wanted' value={'wanted'} />
+            <input type='radio' name='sale' id='wanted' value={'wanted'}  onChange={handleSale} checked={sale === 'wanted' ? true : false}/>
           </fieldset>
           <FormField
             type='text'
@@ -102,22 +108,17 @@ const FilterAds = ({ isSearching }) => {
           <select
             name='tags'
             id='tags'
+            value={tags}
             onChange={handleChangeTags}
             multiple={true}
+            size={listTags.length + 1}
           >
             <optgroup label='TAGS'>
-              <option name='lifestyle' value='lifestyle'>
-                Life Style
+              {listTags.map(e => 
+                <option key={e} name={e} value={e}>
+                {e}
               </option>
-              <option name='mobile' value='mobile'>
-                Mobile
-              </option>
-              <option name='motor' value='motor'>
-                Motor
-              </option>
-              <option name='work' value='work'>
-                Work
-              </option>
+              )}
             </optgroup>
           </select>
           <Button type='submit'>SEARCH</Button>
