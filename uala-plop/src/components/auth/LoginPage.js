@@ -18,6 +18,8 @@ const LoginPage = () => {
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
 
+  const handleChangeChecked = (event) => setCheck(event.target.checked);
+
   const resetError = () => setError(null);
 
   const handleSubmit = async (event) => {
@@ -25,11 +27,11 @@ const LoginPage = () => {
     try {
       resetError();
       setIsFetching(true);
-      await login({ email, password });
+      const accesToken = await login({ email, password });
 
       handleLogin();
 
-      !check && storage.remove('auth');
+      check && storage.set('auth', accesToken);
     } catch (err) {
       setError(err);
     }
@@ -75,8 +77,10 @@ const LoginPage = () => {
         </Button>
         <CheckBox
           name='checklog'
+          type='checkbox'
           label='Check for recording Login'
-          onChange={(event) => setCheck(event.target.checked)}
+          onChange={handleChangeChecked}
+          checked={check}
         />
       </form>
       {error && <ErrorDisplay error={error} resetError={resetError} />}

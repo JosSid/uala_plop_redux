@@ -1,8 +1,8 @@
-const CheckBox = ({ name, label, onChange, ...props }) => {
+const CheckBox = ({ name, label, ...props }) => {
   return (
     <div>
       <label style={{color: 'whitesmoke'}} htmlFor={name}>{label}</label>
-      <input name={name} type='checkbox' onChange={onChange} />
+      <input name={name}{...props} />
     </div>
   );
 };
