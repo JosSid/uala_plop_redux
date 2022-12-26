@@ -5,7 +5,7 @@ import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Button from '../Button.js';
 import storage from '../../../utils/storage.js';
-import { getTags } from './service';
+import { getTags } from '../../ads/service';
 const FilterAds = ({ isSearching }) => {
   const [active, setActive] = useState(false);
   const [name, setName] = useState('');
