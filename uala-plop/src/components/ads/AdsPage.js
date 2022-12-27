@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getAds } from './service';
+import { getAds, getTags } from './service';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/confirm_element/Confirm.js';
 import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import AdModel from './ad_model/AdModel.js';
-import FilterAds from '../common/filter_ads/FilterAds.js';
-import storage from '../../utils/storage.js';
+import FilterAds, {filterConfig} from '../common/filter_ads/FilterAds.js';
 const AdsPage = () => {
   const [ads, setAds] = useState([]);
-  const [copyAds, setCopyAds] = useState([]);
-  const [search, setSearch] = useState(false);
+  const [filters, setFilters] = useState(filterConfig)
+  const [listTags, setListTags] = useState([]);
   const [charge, setCharge] = useState(false);
   const [confirm, setConfirm] = useState(true);
   const [error, setError] = useState(null);
@@ -19,67 +18,74 @@ const AdsPage = () => {
   const getListAds = async () => {
     try {
       const listAds = await getAds();
-      setCopyAds(listAds);
+      const listTags = await getTags();
       setAds(listAds);
+      setListTags(listTags)
       setCharge(true);
     } catch (err) {
       setError(err);
     }
   };
 
-  const getFilterAds = () => {
-    setAds(copyAds);
-    let filterAds = copyAds;
-    const name = storage.get('name');
-    const sale = storage.get('sale');
-    const range = storage.get('range');
-    const tags = storage.get('tags');
-    if (sale !== 'all') {
-      if (sale === 'forSale') {
-        filterAds = filterAds.filter((e) => e.sale);
-      } else {
-        filterAds = filterAds.filter((e) => !e.sale);
-      }
-    }
-    if (name) {
-      filterAds = filterAds.filter((e) => e.name.toLowerCase().includes(name));
-    }
+  const getFilters = (filters) => {
+    setFilters(filters);
 
-    if (range !== [0, 1100]) {
-      if (range[0] > 0) {
-        filterAds = filterAds.filter((e) => e.price >= range[0]);
-      }
-      if (range[1] < 1100) {
-        filterAds = filterAds.filter((e) => e.price <= range[1]);
-      }
-    }
-
-    if (tags === [] || tags === null) {
-      setAds(filterAds);
-    } else {
-      filterAds = filterAds.filter(
-        (e) => JSON.stringify(e.tags) === JSON.stringify(tags)
-      );
-      storage.set('tags', null);
-      storage.set('sale', 'all');
-    }
-
-    setAds(filterAds);
   };
 
-  const isSearching = (bool) => {
-    setSearch(bool);
-    setCharge(false);
+  const filterByName = (ads, filter) => {
+ 
+
+    return ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase()))
   };
+
+
+
+  // const getFilterAds = () => {
+  //   setAds(copyAds);
+  //   let filterAds = copyAds;
+  //   const name = storage.get('name');
+  //   const sale = storage.get('sale');
+  //   const range = storage.get('range');
+  //   const tags = storage.get('tags');
+  //   if (sale !== 'all') {
+  //     if (sale === 'forSale') {
+  //       filterAds = filterAds.filter((e) => e.sale);
+  //     } else {
+  //       filterAds = filterAds.filter((e) => !e.sale);
+  //     }
+  //   }
+  //   if (name) {
+  //     filterAds = filterAds.filter((e) => e.name.toLowerCase().includes(name));
+  //   }
+
+  //   if (range !== [0, 1100]) {
+  //     if (range[0] > 0) {
+  //       filterAds = filterAds.filter((e) => e.price >= range[0]);
+  //     }
+  //     if (range[1] < 1100) {
+  //       filterAds = filterAds.filter((e) => e.price <= range[1]);
+  //     }
+  //   }
+
+  //   if (tags === [] || tags === null) {
+  //     setAds(filterAds);
+  //   } else {
+  //     filterAds = filterAds.filter(
+  //       (e) => JSON.stringify(e.tags) === JSON.stringify(tags)
+  //     );
+  //     storage.set('tags', null);
+  //     storage.set('sale', 'all');
+  //   }
+
+  //   setAds(filterAds);
+  // };
+
   const resetError = () => setError(null);
+
 
   const goToCreate = () => navigate('/ads/new');
   const notConfirm = () => {
     setConfirm(false);
-    storage.remove('name');
-    storage.remove('sale');
-    storage.remove('tags');
-    storage.remove('range');
     navigate('/');
   };
 
@@ -93,11 +99,22 @@ const AdsPage = () => {
   };
 
   useEffect(() => {
-    !charge && !search && getListAds();
-    charge && search && setAds(copyAds);
-    charge && !search && getFilterAds();
+    !charge && getListAds();
+    
+    //charge && !search && getFilterAds();
     // eslint-disable-next-line
-  }, [charge, search, copyAds]);
+  }, [charge, ads]);
+
+  const filterAds  = (ads, filter) => {
+    console.log(filter)
+    const adverts = ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase())).filter(ad => ad.sale)
+    return adverts
+  }
+
+  const pepe = filterAds(ads,filters)
+  console.log(pepe)
+
+  
 
   return (
     <div className={styles.ads__page}>
@@ -106,7 +123,7 @@ const AdsPage = () => {
           {message()}
         </Confirm>
       )}
-      <FilterAds isSearching={isSearching} />
+      <FilterAds listTags={listTags} getFilters={getFilters}/>
       {ads.map((ad) => (
         <div  key={ad.id} className={styles.ad__container}>
           <Link className={styles.ad__link} to={`/ads/${ad.id}`}>

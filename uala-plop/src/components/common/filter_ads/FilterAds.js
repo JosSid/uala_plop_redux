@@ -5,20 +5,26 @@ import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import storage from '../../../utils/storage.js';
 
+export const filterConfig = {
+  name:'', 
+  sale: '',
+  range: [0, 1100],
+  tags: []}
+
 const FilterAds = ({getFilters,listTags}) => {
   const filters = storage.get('filter');
   const [active, setActive] = useState(false);
-  const [name, setName] = useState(filters?.name || '');
-  const [sale, setSale] = useState(filters?.sale || '');
-  const [range, setRange] = useState(filters?.range || [0, 1100]);
-  const [tags, setTags] = useState(filters?.tags || []);
+  const [name, setName] = useState(filters?.name || filterConfig.name);
+  const [sale, setSale] = useState(filters?.sale || filterConfig.sale);
+  const [range, setRange] = useState(filters?.range || filterConfig.range);
+  const [tags, setTags] = useState(filters?.tags || filterConfig.tags);
   
   const handleActive = () => {
     active && storage.set('filter', {name,sale,range, tags})
     setActive(!!!active);
   }
    
-  const filterConfig = {name,sale,range,tags}
+  
 
   const handleName = (event) => {
     setName(event.target.value);
