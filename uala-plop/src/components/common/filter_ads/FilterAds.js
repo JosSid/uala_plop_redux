@@ -1,53 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from'./FilterAds.module.css';
 import FormField from '../formField/FormField.js';
 import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import Button from '../Button.js';
 import storage from '../../../utils/storage.js';
-import { getTags } from '../../ads/service';
-const FilterAds = ({ isSearching }) => {
-  const [active, setActive] = useState(false);
-  const [name, setName] = useState('');
-  const [sale, setSale] = useState('');
-  const [range, setRange] = useState([0, 1100]);
-  const [tags, setTags] = useState([]);
-  const [listTags, setListTags] = useState([]);
 
-  const getListTags = async() => {
-    const listTags = await getTags();
-    setListTags(listTags)
+const FilterAds = ({getFilters,listTags}) => {
+  const filters = storage.get('filter');
+  const [active, setActive] = useState(false);
+  const [name, setName] = useState(filters?.name || '');
+  const [sale, setSale] = useState(filters?.sale || '');
+  const [range, setRange] = useState(filters?.range || [0, 1100]);
+  const [tags, setTags] = useState(filters?.tags || []);
+  
+  const handleActive = () => {
+    active && storage.set('filter', {name,sale,range, tags})
+    setActive(!!!active);
+  }
+   
+  const filterConfig = {name,sale,range,tags}
+
+  const handleName = (event) => {
+    setName(event.target.value);
+    getFilters({ ...filterConfig, name: event.target.value})
+
+  }
+  const handleSale = (event) => {
+    setSale(event.target.value);
+    getFilters({ ...filterConfig, sale: event.target.value})
   }
 
-  const filter = (event) => {
-    event.preventDefault();
-    isSearching(!active);
-    setActive(false);
-    !sale && setSale('all')
-  };
 
-  const handleActive = () => {
-    setActive(!active);
-    isSearching(false);
-    storage.set('sale', 'all')
-  };
-
-  const handleName = (event) => setName(event.target.value);
-  const handleSale = (event) => setSale(event.target.value);
-  
-
-  const handleRange = (event) => setRange(event);
+  const handleRange = (event) => {
+    setRange(event);
+    getFilters({ ...filterConfig, range: event})
+  }
 
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
     const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
-    console.log(finallyTags)
+    getFilters({ ...filterConfig, tags: finallyTags})
   };
 
-  useEffect(() => {
-    getListTags();
-  }, []);
 
   return (
     <div className={styles.filter__container}>
@@ -55,7 +50,7 @@ const FilterAds = ({ isSearching }) => {
         Filter Advertisments 🔍
       </div>
       {active && (
-        <form onSubmit={filter} className={styles.filter__form}>
+        <form className={styles.filter__form}>
           <fieldset>
             <legend>For sale or Wanted :</legend>
             <label htmlFor='sale'>All</label>
@@ -65,12 +60,12 @@ const FilterAds = ({ isSearching }) => {
               id='all'
               value={'all'}
               onChange={handleSale}
-             checked={!sale || sale === 'all' ? true : false}
+             checked={!sale || sale === 'all'}
             />
             <label htmlFor='sale'>For Sale</label>
-            <input type='radio' name='sale' id='sale' value={'forSale'}  onChange={handleSale} checked={sale === 'forSale' ? true : false}/>
+            <input type='radio' name='sale' id='sale' value={'forSale'}  onChange={handleSale} checked={sale === 'forSale'}/>
             <label htmlFor='wanted'>Wanted</label>
-            <input type='radio' name='sale' id='wanted' value={'wanted'}  onChange={handleSale} checked={sale === 'wanted' ? true : false}/>
+            <input type='radio' name='sale' id='wanted' value={'wanted'}  onChange={handleSale} checked={sale === 'wanted'}/>
           </fieldset>
           <FormField
             type='text'
@@ -121,7 +116,6 @@ const FilterAds = ({ isSearching }) => {
               )}
             </optgroup>
           </select>
-          <Button type='submit'>SEARCH</Button>
         </form>
       )}
     </div>
