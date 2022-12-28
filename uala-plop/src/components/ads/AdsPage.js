@@ -5,10 +5,11 @@ import Confirm from '../common/confirm_element/Confirm.js';
 import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import AdModel from './ad_model/AdModel.js';
-import FilterAds, {filterConfig} from '../common/filter_ads/FilterAds.js';
+import FilterAds, { filterConfig } from '../common/filter_ads/FilterAds.js';
+import storage from '../../utils/storage';
 const AdsPage = () => {
   const [ads, setAds] = useState([]);
-  const [filters, setFilters] = useState(filterConfig)
+  const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
   const [listTags, setListTags] = useState([]);
   const [charge, setCharge] = useState(false);
   const [confirm, setConfirm] = useState(true);
@@ -20,7 +21,7 @@ const AdsPage = () => {
       const listAds = await getAds();
       const listTags = await getTags();
       setAds(listAds);
-      setListTags(listTags)
+      setListTags(listTags);
       setCharge(true);
     } catch (err) {
       setError(err);
@@ -29,16 +30,7 @@ const AdsPage = () => {
 
   const getFilters = (filters) => {
     setFilters(filters);
-
   };
-
-  const filterByName = (ads, filter) => {
- 
-
-    return ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase()))
-  };
-
-
 
   // const getFilterAds = () => {
   //   setAds(copyAds);
@@ -82,7 +74,6 @@ const AdsPage = () => {
 
   const resetError = () => setError(null);
 
-
   const goToCreate = () => navigate('/ads/new');
   const notConfirm = () => {
     setConfirm(false);
@@ -100,32 +91,63 @@ const AdsPage = () => {
 
   useEffect(() => {
     !charge && getListAds();
-    
+    getFilters(filters);
+
     //charge && !search && getFilterAds();
     // eslint-disable-next-line
   }, [charge, ads]);
 
-  const filterAds  = (ads, filter) => {
-    console.log(filter)
-    const adverts = ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase())).filter(ad => ad.sale)
-    return adverts
-  }
+  // const filterByName = (ads, filter) => {
+  //   return ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase()))
+  // };
 
-  const pepe = filterAds(ads,filters)
-  console.log(pepe)
+  // const filterBySale = (ads, filter) => {
+  //   if(filter.sale === 'forSale') {
+  //     return ads.filter(ad => ad.sale)
+  //   };
+  //   if(filter.sale === 'wanted') {
+  //     return ads.filter(ad => !ad.sale)
+  //   };
+  //   return ads
+  // };
 
-  
+  const filterAds = (ads, filter) => {
+    const adverts = ads
+      .filter((ad) =>
+        filter.sale === 'all'
+          ? ad
+          : filter.sale === 'forSale'
+          ? ad.sale
+          : !ad.sale
+      )
+      .filter((ad) => ad.name.toLowerCase().includes(filter.name.toLowerCase()))
+      .filter((ad) =>
+        filter.range[1] > 1000
+          ? ad.price >= filter.range[0]
+          : ad.price >= filter.range[0] && ad.price <= filter.range[1]
+      )
+      .filter((ad) =>
+        !filter.tags.length
+          ? ad
+          : ad.tags.includes(filter.tags.find((e) => ad.tags.includes(e)))
+      );
+
+    return adverts;
+  };
+
+  const filteredAds = filterAds(ads, filters);
+  console.log(filteredAds);
 
   return (
     <div className={styles.ads__page}>
-      {ads.length < 1 && confirm && (
+      {filteredAds.length < 1 && confirm && (
         <Confirm confirm={goToCreate} notConfirm={notConfirm}>
           {message()}
         </Confirm>
       )}
-      <FilterAds listTags={listTags} getFilters={getFilters}/>
-      {ads.map((ad) => (
-        <div  key={ad.id} className={styles.ad__container}>
+      <FilterAds listTags={listTags} getFilters={getFilters} />
+      {filteredAds.map((ad) => (
+        <div key={ad.id} className={styles.ad__container}>
           <Link className={styles.ad__link} to={`/ads/${ad.id}`}>
             <AdModel ad={ad} />
           </Link>

@@ -7,7 +7,7 @@ import storage from '../../../utils/storage.js';
 
 export const filterConfig = {
   name:'', 
-  sale: '',
+  sale: 'all',
   range: [0, 1100],
   tags: []}
 
@@ -20,33 +20,36 @@ const FilterAds = ({getFilters,listTags}) => {
   const [tags, setTags] = useState(filters?.tags || filterConfig.tags);
   
   const handleActive = () => {
-    active && storage.set('filter', {name,sale,range, tags})
-    setActive(!!!active);
+      setActive(!!!active);
   }
    
-  
+  const currentFilter = {name,sale,range,tags}
 
   const handleName = (event) => {
     setName(event.target.value);
-    getFilters({ ...filterConfig, name: event.target.value})
-
+    getFilters({ ...currentFilter, name: event.target.value});
+    storage.set('filter', {...currentFilter, name: event.target.value})
   }
   const handleSale = (event) => {
     setSale(event.target.value);
-    getFilters({ ...filterConfig, sale: event.target.value})
+    getFilters({ ...currentFilter, sale: event.target.value});
+    storage.set('filter', {...currentFilter, sale: event.target.value})
   }
 
 
   const handleRange = (event) => {
+    console.log(event)
     setRange(event);
-    getFilters({ ...filterConfig, range: event})
+    getFilters({ ...currentFilter, range: event});
+    storage.set('filter', {...currentFilter, range: event})
   }
 
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
     const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
-    getFilters({ ...filterConfig, tags: finallyTags})
+    getFilters({ ...currentFilter, tags: finallyTags});
+    storage.set('filter', {...currentFilter, tags: finallyTags})
   };
 
 
