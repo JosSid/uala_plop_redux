@@ -4,12 +4,12 @@ import FormField from '../formField/FormField.js';
 import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import storage from '../../../utils/storage.js';
-
+import Button from '../Button';
 export const filterConfig = {
   name:'', 
   sale: 'all',
   range: [0, 1100],
-  tags: []}
+  tags: []};
 
 const FilterAds = ({getFilters,listTags}) => {
   const filters = storage.get('filter');
@@ -18,40 +18,50 @@ const FilterAds = ({getFilters,listTags}) => {
   const [sale, setSale] = useState(filters?.sale || filterConfig.sale);
   const [range, setRange] = useState(filters?.range || filterConfig.range);
   const [tags, setTags] = useState(filters?.tags || filterConfig.tags);
+
+  const currentFilter = {name,sale,range,tags};
   
   const handleActive = () => {
       setActive(!!!active);
-  }
-   
-  const currentFilter = {name,sale,range,tags}
-
+      active && storage.set('filter', currentFilter)
+  }; 
+ 
   const handleName = (event) => {
     setName(event.target.value);
     getFilters({ ...currentFilter, name: event.target.value});
-    storage.set('filter', {...currentFilter, name: event.target.value})
-  }
+    storage.set('filter', {...currentFilter, name: event.target.value});
+  };
+
   const handleSale = (event) => {
     setSale(event.target.value);
     getFilters({ ...currentFilter, sale: event.target.value});
-    storage.set('filter', {...currentFilter, sale: event.target.value})
-  }
-
+    storage.set('filter', {...currentFilter, sale: event.target.value});
+  };
 
   const handleRange = (event) => {
-    console.log(event)
     setRange(event);
     getFilters({ ...currentFilter, range: event});
-    storage.set('filter', {...currentFilter, range: event})
-  }
+    storage.set('filter', {...currentFilter, range: event});
+  };
 
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
     const finallyTags = Array.from(selectedTags).map((e) => e.value);
     setTags(finallyTags);
     getFilters({ ...currentFilter, tags: finallyTags});
-    storage.set('filter', {...currentFilter, tags: finallyTags})
+    storage.set('filter', {...currentFilter, tags: finallyTags});
   };
 
+  const handleReset = (event) => {
+    event.preventDefault();
+    setName(filterConfig.name);
+    setSale(filterConfig.sale);
+    setRange(filterConfig.range);
+    setTags(filterConfig.tags);
+    getFilters(filterConfig);
+    storage.set('filter', filterConfig);
+    setActive(!!!active);
+  };
 
   return (
     <div className={styles.filter__container}>
@@ -125,6 +135,7 @@ const FilterAds = ({getFilters,listTags}) => {
               )}
             </optgroup>
           </select>
+          <Button onClick={handleReset}>Reset Filter</Button>
         </form>
       )}
     </div>

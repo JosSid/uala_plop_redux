@@ -32,46 +32,6 @@ const AdsPage = () => {
     setFilters(filters);
   };
 
-  // const getFilterAds = () => {
-  //   setAds(copyAds);
-  //   let filterAds = copyAds;
-  //   const name = storage.get('name');
-  //   const sale = storage.get('sale');
-  //   const range = storage.get('range');
-  //   const tags = storage.get('tags');
-  //   if (sale !== 'all') {
-  //     if (sale === 'forSale') {
-  //       filterAds = filterAds.filter((e) => e.sale);
-  //     } else {
-  //       filterAds = filterAds.filter((e) => !e.sale);
-  //     }
-  //   }
-  //   if (name) {
-  //     filterAds = filterAds.filter((e) => e.name.toLowerCase().includes(name));
-  //   }
-
-  //   if (range !== [0, 1100]) {
-  //     if (range[0] > 0) {
-  //       filterAds = filterAds.filter((e) => e.price >= range[0]);
-  //     }
-  //     if (range[1] < 1100) {
-  //       filterAds = filterAds.filter((e) => e.price <= range[1]);
-  //     }
-  //   }
-
-  //   if (tags === [] || tags === null) {
-  //     setAds(filterAds);
-  //   } else {
-  //     filterAds = filterAds.filter(
-  //       (e) => JSON.stringify(e.tags) === JSON.stringify(tags)
-  //     );
-  //     storage.set('tags', null);
-  //     storage.set('sale', 'all');
-  //   }
-
-  //   setAds(filterAds);
-  // };
-
   const resetError = () => setError(null);
 
   const goToCreate = () => navigate('/ads/new');
@@ -92,24 +52,7 @@ const AdsPage = () => {
   useEffect(() => {
     !charge && getListAds();
     getFilters(filters);
-
-    //charge && !search && getFilterAds();
-    // eslint-disable-next-line
-  }, [charge, ads]);
-
-  // const filterByName = (ads, filter) => {
-  //   return ads.filter(ad => ad.name.toLowerCase().includes(filter.name.toLowerCase()))
-  // };
-
-  // const filterBySale = (ads, filter) => {
-  //   if(filter.sale === 'forSale') {
-  //     return ads.filter(ad => ad.sale)
-  //   };
-  //   if(filter.sale === 'wanted') {
-  //     return ads.filter(ad => !ad.sale)
-  //   };
-  //   return ads
-  // };
+  }, [charge, filters]);
 
   const filterAds = (ads, filter) => {
     const adverts = ads
@@ -136,7 +79,6 @@ const AdsPage = () => {
   };
 
   const filteredAds = filterAds(ads, filters);
-  console.log(filteredAds);
 
   return (
     <div className={styles.ads__page}>

@@ -23,13 +23,15 @@ const AdPage = () => {
     try {
       setIsFetching(true);
 
-      deleteAd(id);
-
+      await deleteAd(id);
+      debugger
       setIsDeleted(true);
-
+      debugger
+      setIsFetching(false)
+      debugger
       setTimeout(() => {
         navigate('/');
-      }, 500);
+      }, 1500);
     } catch (err) {
       setError(err);
     }
@@ -55,7 +57,8 @@ const AdPage = () => {
 
   return (
     <div className={styles.ads__page}>
-      {ad ? (
+      {!isFetching && isDeleted && <h1>Deleted Ad</h1>}
+      {ad && !isDeleted ? (
         <div key={ad.id} className={styles.ad__container}>
           <AdModel ad={ad} />
           {!isDeleted && !confirm && (
@@ -76,10 +79,10 @@ const AdPage = () => {
       )}
 
       {error && <ErrorDisplay error={error} resetError={resetError} />}
-      {isFetching && (
+      {isFetching && !isDeleted && (
         <div>
           <Spinner />
-          <h1>Deleted Ad</h1>
+
         </div>
       )}
     </div>

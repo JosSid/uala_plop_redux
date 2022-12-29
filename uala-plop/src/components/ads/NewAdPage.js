@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FormField from '../common/formField/FormField.js';
 import Button from '../common/Button.js';
-import { createAd } from './service.js';
+import { createAd, getTags } from './service.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
@@ -15,10 +15,20 @@ const NewAdPage = () => {
   const [photo, setPhoto] = useState(null);
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [listTags, setListTags] = useState([]);
   const navigate = useNavigate();
 
+  const getListTags = async () => {
+    try {
+      const listTags = await getTags();
+      setListTags(listTags);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   const handleChangeName = (event) => setName(event.target.value);
-  const handleChangeSale = () => setSale(!sale);
+  const handleChangeSale = (event) => setSale(JSON.parse(event.target.value));
   const handleChangePrice = (event) => setPrice(parseInt(event.target.value));
   const handleChangeTags = (event) => {
     const selectedTags = event.target.selectedOptions;
@@ -27,7 +37,7 @@ const NewAdPage = () => {
   };
 
   const handlePhoto = (event) => {
-    setPhoto(event.target.files);
+    setPhoto(event.target.files[0]);
   };
 
   const isButtonEnabled = () => name && price && tags.length > 0;
@@ -37,11 +47,11 @@ const NewAdPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('name',name)
-    formData.append('sale',sale)
-    formData.append('price',price)
-    formData.append('photo',photo[0])
-    formData.append('tags',tags)
+    formData.append('name', name);
+    formData.append('sale', sale);
+    formData.append('price', price);
+    photo && formData.append('photo', photo);
+    formData.append('tags', tags);
     resetError();
     setIsFetching(true);
     try {
@@ -54,6 +64,10 @@ const NewAdPage = () => {
     }
     setIsFetching(false);
   };
+
+  useEffect(() => {
+    getListTags();
+  }, []);
 
   return (
     <div className={styles.newAdPage__container}>
@@ -68,18 +82,26 @@ const NewAdPage = () => {
           value={name}
           placeholder='Required field*'
         />
-        <fieldset onChange={handleChangeSale}>
+        <fieldset>
           <legend>For sale or Wanted :</legend>
           <label htmlFor='sale'>For Sale</label>
           <input
             type='radio'
             name='sale'
             id='sale'
-            value={sale}
-            defaultChecked
+            value={true}
+            onChange={handleChangeSale}
+            checked={sale}
           />
           <label htmlFor='wanted'>Wanted</label>
-          <input type='radio' name='sale' id='wanted' value={sale} />
+          <input
+            type='radio'
+            name='sale'
+            id='wanted'
+            onChange={handleChangeSale}
+            value={false}
+            checked={!sale}
+          />
         </fieldset>
         <FormField
           type='number'
@@ -94,26 +116,23 @@ const NewAdPage = () => {
         <select
           name='tags'
           id='tags'
+          value={tags}
           onChange={handleChangeTags}
           multiple={true}
+          size={listTags.length + 1}
         >
           <optgroup label='Required field*'>
-            <option name='lifestyle' value='lifestyle'>
-              Life Style
-            </option>
-            <option name='mobile' value='mobile'>
-              Mobile
-            </option>
-            <option name='motor' value='motor'>
-              Motor
-            </option>
-            <option name='work' value='work'>
-              Work
-            </option>
+            {listTags.map((e) => (
+              <option key={e} name={e} value={e}>
+                {e}
+              </option>
+            ))}
           </optgroup>
         </select>
         <label htmlFor='photo'>Upload picture</label>
-        <p className={styles.recomendation__size}>*Recomended size 300px / 300px</p>
+        <p className={styles.recomendation__size}>
+          *Recomended size 300px / 300px
+        </p>
         <input
           onChange={handlePhoto}
           type='file'

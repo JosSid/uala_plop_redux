@@ -1,7 +1,7 @@
 import client from '../../api/client.js';
 
 const adsURL = '/api/v1/adverts';
-const tagsUrl = '/api/v1/adverts/tags'
+const tagsUrl = '/api/v1/adverts/tags';
 
 export const getAds = async () => {
   const ads = await client.get(adsURL);
@@ -30,5 +30,5 @@ export const deleteAd = async (adId) => {
 export const getTags = async () => {
   const tags = await client.get(tagsUrl);
 
-  return tags
+  return tags;
 };
