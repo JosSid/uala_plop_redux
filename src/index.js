@@ -6,6 +6,7 @@ import App from './App';
 import storage from './utils/storage.js';
 import { setAuthorizationHeader } from './api/client.js';
 import { AuthContextProvider } from './components/auth/Context.js';
+//import { createStore } from 'redux';
 
 const accessToken = storage.get('auth');
 setAuthorizationHeader(accessToken);
