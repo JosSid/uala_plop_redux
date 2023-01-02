@@ -12,7 +12,7 @@ const accessToken = storage.get('auth');
 setAuthorizationHeader(accessToken);
 
 const store = configureStore();
-window.store = store;
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
