@@ -6,10 +6,13 @@ import App from './App';
 import storage from './utils/storage.js';
 import { setAuthorizationHeader } from './api/client.js';
 import { AuthContextProvider } from './components/auth/Context.js';
-//import { createStore } from 'redux';
+import configureStore from './store';
 
 const accessToken = storage.get('auth');
 setAuthorizationHeader(accessToken);
+
+const store = configureStore();
+window.store = store;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
