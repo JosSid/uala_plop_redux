@@ -2,10 +2,12 @@ import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
 import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
 import { useState } from 'react';
-import { useAuthContext } from '../auth/Context.js';
 
-const Header = () => {
-  const { titleApp, handleLogout } = useAuthContext();
+import { useDispatch } from 'react-redux';
+import { authLogout } from '../../store/actions.js';
+
+const Header = ({titleApp}) => {
+  const  dispatch  = useDispatch()
   const [confirm, setConfirm] = useState(false);
 
   const handleConfirm = () => setConfirm(true);
@@ -27,7 +29,7 @@ const Header = () => {
         <Confirm
           className={styles.header__confirm}
           children={message}
-          confirm={handleLogout}
+          confirm={dispatch(authLogout)}
           notConfirm={notConfirm}
         />
       )}

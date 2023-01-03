@@ -6,9 +6,10 @@ import FormField from '../common/formField/FormField.js';
 import { login } from './service.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import { useAuthContext } from './Context.js';
-const LoginPage = () => {
-  const { handleLogin, titleApp } = useAuthContext();
+import { useDispatch } from 'react-redux';
+import { authLogin } from '../../store/actions';
+const LoginPage = ({titleApp}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
@@ -29,7 +30,7 @@ const LoginPage = () => {
       setIsFetching(true);
       const accesToken = await login({ email, password });
 
-      handleLogin();
+      dispatch(authLogin());
 
       check && storage.set('auth', accesToken);
     } catch (err) {
