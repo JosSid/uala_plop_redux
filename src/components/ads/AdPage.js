@@ -12,7 +12,7 @@ import { getAdById } from '../../store/selectors.js';
 const AdPage = () => {
   const { id } = useParams();
 
-  const ad = useSelector(state => getAdById(state, id));
+  const ad = useSelector(getAdById(id));
   console.log(ad)
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -42,21 +42,21 @@ const AdPage = () => {
 
   const resetError = () => setError(null);
 
-  // useEffect(() => {
-  //   const getAd = async (id) => {
-  //     try {
-  //       resetError();
-  //       const data = await getAdId(id);
-  //       setAd(data);
-  //     } catch (err) {
-  //       if (err.status === 404) {
-  //         navigate('404');
-  //       }
-  //       setError(err);
-  //     }
-  //   };
-  //   getAd(id);
-  // }, [id, navigate]);
+  useEffect(() => {
+    const getAd = async (id) => {
+      try {
+        resetError();
+        const data = await getAdId(id);
+        return data;
+      } catch (err) {
+        if (err.status === 404) {
+          navigate('404');
+        }
+        setError(err);
+      }
+    };
+    getAd(id);
+  }, [id, navigate]);
 
   return (
     <div className={styles.ads__page}>
