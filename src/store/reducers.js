@@ -33,7 +33,7 @@ export function ads(state = defaultState.ads, action) {
 
 export function tags(state = defaultState.tags, action) {
     if(action.type === TAGS_LOADED){
-        return action.payload
+        return action.payload;
     };
 
     return state
