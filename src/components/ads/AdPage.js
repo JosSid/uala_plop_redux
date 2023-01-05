@@ -42,21 +42,21 @@ const AdPage = () => {
 
   const resetError = () => setError(null);
 
-  useEffect(() => {
-    const getAd = async (id) => {
-      try {
-        resetError();
-        const data = await getAdId(id);
-        return data;
-      } catch (err) {
-        if (err.status === 404) {
-          navigate('404');
-        }
-        setError(err);
-      }
-    };
-    getAd(id);
-  }, [id, navigate]);
+  // useEffect(() => {
+  //   const getAd = async (id) => {
+  //     try {
+  //       resetError();
+  //       const data = await getAdId(id);
+  //       return data;
+  //     } catch (err) {
+  //       if (err.status === 404) {
+  //         navigate('404');
+  //       }
+  //       setError(err);
+  //     }
+  //   };
+  //   getAd(id);
+  // }, [id, navigate]);
 
   return (
     <div className={styles.ads__page}>
