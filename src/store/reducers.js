@@ -48,21 +48,21 @@ export function tags(state = defaultState.tags, action) {
 };
 
 export function ui(state = defaultState.ui, action) {
-    if(action.type === AUTH_LOGIN_REQUEST) {
+    if(action.error) {
+        return {
+            error: action.payload,
+            isFetching: false
+        };
+    };
+    if(/_REQUEST$/.test(action.type)) {
         return {
             error: null,
             isFetching: true
         };
     };
-    if(action.type === AUTH_LOGIN_SUCCES) {
+    if(/_SUCCES$/.test(action.type)) {
         return {
             error: null,
-            isFetching: false
-        };
-    };
-    if(action.type === AUTH_LOGIN_FAILURE) {
-        return {
-            error: action.payload,
             isFetching: false
         };
     };
