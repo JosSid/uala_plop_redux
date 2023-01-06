@@ -1,4 +1,3 @@
-import { login } from '../components/auth/service';
 import {
   ADS_LOADED,
   AUTH_LOGIN_FAILURE,
@@ -24,10 +23,10 @@ export const authLoginFailure = (error) => ({
 });
 
 export const authLogin = (credentials) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, {api}) {
     try {
       dispatch(authLoginRequest());
-      const accessToken = await login(credentials);
+      const accessToken = await api.auth.login(credentials);
 
       dispatch(authLoginSucces());
       return accessToken;
