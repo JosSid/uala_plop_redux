@@ -8,7 +8,7 @@
 //          }
 //  }
 
-import { ADS_LOADED, AUTH_LOGIN_FAILURE, AUTH_LOGIN_REQUEST, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, TAGS_LOADED, UI_RESET_ERROR } from "./types";
+import { ADS_LOADED, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, TAGS_LOADED, UI_RESET_ERROR } from "./types";
 
 const defaultState = {
     auth: false,

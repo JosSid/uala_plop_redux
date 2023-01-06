@@ -3,11 +3,10 @@ import styles from './LoginPage.module.css';
 import Button from '../common/Button.js';
 import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
-import { login } from './service.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {  authLoginFailure, authLoginRequest, authLoginSucces, uiResetError } from '../../store/actions';
+import {  authLogin, uiResetError } from '../../store/actions';
 import { getUi } from '../../store/selectors';
 const LoginPage = ({titleApp}) => {
   const dispatch = useDispatch();
@@ -25,16 +24,8 @@ const LoginPage = ({titleApp}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(authLoginRequest())
-    try {
-      const accesToken = await login({ email, password });
-
-      dispatch(authLoginSucces());
-
-      check && storage.set('auth', accesToken);
-    } catch (err) {
-      dispatch(authLoginFailure(err))
-    }
+    const accessToken = await dispatch(authLogin({email, password}))
+    check && storage.set('auth', accessToken)
     
   };
 
