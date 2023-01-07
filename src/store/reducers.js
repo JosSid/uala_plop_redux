@@ -8,7 +8,7 @@
 //          }
 //  }
 
-import { ADS_LOADED, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, TAGS_LOADED, UI_RESET_ERROR } from "./types";
+import { ADS_LOADED_SUCCES, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, TAGS_LOADED_SUCCES, UI_RESET_ERROR } from "./types";
 
 const defaultState = {
     auth: false,
@@ -32,7 +32,7 @@ export function auth(state = defaultState.auth, action) {
 };
 
 export function ads(state = defaultState.ads, action) {
-    if(action.type === ADS_LOADED){
+    if(action.type === ADS_LOADED_SUCCES){
         return action.payload;
     };
 
@@ -40,7 +40,7 @@ export function ads(state = defaultState.ads, action) {
 };
 
 export function tags(state = defaultState.tags, action) {
-    if(action.type === TAGS_LOADED){
+    if(action.type === TAGS_LOADED_SUCCES){
         return action.payload;
     };
 

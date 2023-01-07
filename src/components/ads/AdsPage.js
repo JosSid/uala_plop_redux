@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getAds, getTags } from './service';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/confirm_element/Confirm.js';
 import styles from './AdsPage.module.css';
@@ -8,21 +7,18 @@ import AdModel from './ad_model/AdModel.js';
 import FilterAds, { filterConfig } from '../common/filter_ads/FilterAds.js';
 import storage from '../../utils/storage';
 import { connect } from 'react-redux';
-import {adsLoaded, tagsLoaded} from '../../store/actions'
-const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags}) => {
+import {adsLoad, tagsLoad, uiResetError} from '../../store/actions'
+import { getListAds, getListTags, getUiError } from '../../store/selectors.js';
+const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...props}) => {
   const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
-  const [charge, setCharge] = useState(false);
   const [confirm, setConfirm] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-
 
   const getFilters = (filters) => {
     setFilters(filters);
   };
 
-  const resetError = () => setError(null);
+  const resetError = () => uiResetError()
 
   const goToCreate = () => navigate('/ads/new');
   const notConfirm = () => {
@@ -40,20 +36,13 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags}) => {
   };
 
   useEffect(() => {
-    const getListAds = async () => {
-      try {
-        const listAds = await getAds();
-        const listTags = await getTags();
-        onAdsLoaded(listAds);
-        onTagsLoaded(listTags);
-        setCharge(true);
-      } catch (err) {
-        setError(err);
-      }
+    const getListAds =  () => {
+        onAdsLoaded();
+        onTagsLoaded();
     };
-    !charge && !ads.length && !tags.length && getListAds();
+    getListAds();
     getFilters(filters);
-  }, [charge, filters,onAdsLoaded,onTagsLoaded, ads, tags]);
+  }, [filters,onAdsLoaded,onTagsLoaded]);
 
   const filterAds = (ads, filter) => {
     const adverts = ads
@@ -102,13 +91,15 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags}) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  ads: state.ads,
-  tags: state.tags
+  ads: getListAds(state),
+  tags: getListTags(state),
+  error: getUiError(state)
 });
 
 const mapDispatchToProps = {
-  onAdsLoaded: adsLoaded,
-  onTagsLoaded: tagsLoaded
+  onAdsLoaded: adsLoad,
+  onTagsLoaded: tagsLoad,
+  uiResetError: uiResetError
 };
 
 const connectedAdsPage = connect(mapStateToProps, mapDispatchToProps)(AdsPage)
