@@ -1,8 +1,11 @@
-import { areChargedAds, areChargedTags } from './selectors';
+import { areChargedAds, areChargedTags, getAdById } from './selectors';
 import {
   ADS_LOADED_FAILURE,
   ADS_LOADED_REQUEST,
   ADS_LOADED_SUCCES,
+  AD_LOADED_FAILURE,
+  AD_LOADED_REQUEST,
+  AD_LOADED_SUCCES,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCES,
@@ -74,6 +77,36 @@ export const adsLoad = () => {
       dispatch(adsLoadedSucces(ads));
     } catch (error) {
       dispatch(adsLoadedFailure(error));
+      throw error;
+    };
+  };
+};
+
+export const adLoadedSucces = (ad) => ({
+  type: AD_LOADED_SUCCES,
+  payload: ad,
+});
+
+export const adLoadedRequest = () => ({
+  type: AD_LOADED_REQUEST
+});
+
+export const adLoadedFailure = (error) => ({
+  type: AD_LOADED_FAILURE,
+  payload: error,
+  error: true
+});
+
+export const adLoad = (adId) => {
+  return async function(dispatch, getState, {api}) {
+    const chargedAd = getAdById(adId)(getState());
+    if(chargedAd) return;
+    try {
+      dispatch(adLoadedRequest());
+      const ad = await api.ads.getAdId(adId);
+      dispatch(adLoadedSucces(ad));
+    } catch (error) {
+      dispatch(adLoadedFailure(error));
       throw error;
     };
   };
