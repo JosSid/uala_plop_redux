@@ -1,7 +1,13 @@
 //  { ESQUEMA DE ESTADO
 //      auth: true/false
-//      ads: []
-//      tags: []
+//      ads: {
+//          areLoaded: false,
+//          data: []
+//          }
+//      tags: {
+//          areLoaded: false,
+//          data: []
+//          }
 //      ui: {
 //            isFetching: true/false,  
 //            error: error/null
@@ -12,8 +18,14 @@ import { ADS_LOADED_SUCCES, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, TAGS_LOADED_SUCCES, 
 
 const defaultState = {
     auth: false,
-    ads: [],
-    tags: [],
+    ads: {
+        areLoaded: false,
+        data: []
+    },
+    tags: {
+        areLoaded: false,
+        data: []
+    },
     ui: {
         isFetching: false,
         error: null
@@ -33,7 +45,7 @@ export function auth(state = defaultState.auth, action) {
 
 export function ads(state = defaultState.ads, action) {
     if(action.type === ADS_LOADED_SUCCES){
-        return action.payload;
+        return { areLoaded: true, data: action.payload};
     };
 
     return state;
@@ -41,7 +53,7 @@ export function ads(state = defaultState.ads, action) {
 
 export function tags(state = defaultState.tags, action) {
     if(action.type === TAGS_LOADED_SUCCES){
-        return action.payload;
+        return { areLoaded: true, data: action.payload};
     };
 
     return state

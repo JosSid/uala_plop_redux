@@ -96,7 +96,7 @@ export const tagsLoadedFailure = (error) => ({
 
 export const tagsLoad = () => {
   return async function (dispatch, getState, {api}) {
-    const chargedTags = !!areChargedTags(getState());
+    const chargedTags = areChargedTags(getState());
     if(chargedTags) return;
     try {
       dispatch(tagsLoadedRequest());
