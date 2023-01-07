@@ -48,9 +48,16 @@ export const authLogin = (credentials) => {
   };
 };
 
-export const authLogout = () => ({
+export const authLogoutSucces = () => ({
   type: AUTH_LOGOUT,
 });
+
+export const authLogout = () => {
+  return async function (dispatch, ghetState, {api}) {
+    await api.auth.logout();
+    dispatch(authLogoutSucces());
+  }
+}
 
 export const adsLoadedSucces = (ads) => ({
   type: ADS_LOADED_SUCCES,
