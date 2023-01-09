@@ -152,8 +152,9 @@ export const createAdRequest = () => ({
   type: CREATED_AD_REQUEST
 });
 
-export const createAdSucces = () => ({
-  type: CREATED_AD_SUCCES
+export const createAdSucces = (ad) => ({
+  type: CREATED_AD_SUCCES,
+  payload: ad
 });
 
 export const createAdFailure = (error) => ({
@@ -168,14 +169,14 @@ export const createAd = (formData) => {
       dispatch(createAdRequest());
       const createNewAd = await api.ads.createAd(formData);
       const newAd = createNewAd.id;
-      dispatch(createAdSucces());
-      return newAd
+      dispatch(createAdSucces(createNewAd));
+      return newAd // hacer navigate a ads
     } catch (error) {
       dispatch(createAdFailure(error));
       throw error;
-    }
-  }
-}
+    };
+  };
+};
 
 
 export const uiResetError = () => ({
