@@ -13,6 +13,9 @@ import {
   CREATED_AD_FAILURE,
   CREATED_AD_REQUEST,
   CREATED_AD_SUCCES,
+  DELETED_AD_FAILURE,
+  DELETED_AD_REQUEST,
+  DELETED_AD_SUCCES,
   TAGS_LOADED_FAILURE,
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCES,
@@ -178,6 +181,32 @@ export const createAd = (formData) => {
   };
 };
 
+export const deleteAdRequest = () => ({
+  type: DELETED_AD_REQUEST
+});
+
+export const deleteAdSucces = () => ({
+  type: DELETED_AD_SUCCES,
+});
+
+export const deleteAdFailure = (error) => ({
+  type: DELETED_AD_FAILURE,
+  payload: error,
+  error: true
+});
+
+export const deleteAd = (adId) => {
+  return async function(dispatch, getState, {api}) {
+    try {
+      dispatch(deleteAdRequest());
+      await api.ads.deleteAd(adId);
+      dispatch(deleteAdSucces());
+    } catch (error) {
+      dispatch(deleteAdFailure(error));
+      throw error;
+    };
+  };
+};
 
 export const uiResetError = () => ({
   type: UI_RESET_ERROR,

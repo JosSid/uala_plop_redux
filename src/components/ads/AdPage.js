@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteAd } from './service.js';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
@@ -9,7 +8,7 @@ import Confirm from '../common/confirm_element/Confirm.js';
 import AdModel from './ad_model/AdModel.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdById, getUi } from '../../store/selectors.js';
-import { adLoad, uiResetError } from '../../store/actions.js';
+import { adLoad, deleteAd, uiResetError } from '../../store/actions.js';
 const AdPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch()
@@ -22,23 +21,15 @@ const AdPage = () => {
 
   const handleConfirm = () => setConfirm(true);
 
-  // const deletedAd = async () => {
-  //   try {
-  //     setIsFetching(true);
+  const deletedAd = () => {
 
-  //     await deleteAd(id);
+    dispatch(deleteAd(id))
 
-  //     setIsDeleted(true);
-
-  //     setIsFetching(false)
-
-  //     setTimeout(() => {
-  //       navigate('/');
-  //     }, 1500);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
+    !error && setIsDeleted(true)
+    !error && setTimeout(() => {
+      navigate('/');
+    }, 1500);          
+  };
 
   const resetError = () => dispatch(uiResetError());
 
@@ -49,7 +40,7 @@ const AdPage = () => {
         await dispatch(adLoad(id))
       } catch (err) {
         if (err.status === 404) {
-          navigate('404');
+          navigate('/404');
         }
 
       }
@@ -71,7 +62,7 @@ const AdPage = () => {
           {confirm && !isDeleted && (
             <Confirm
               children='Are you sure for delete ad?'
-              /* confirm={deletedAd} */
+              confirm={deletedAd}
               notConfirm={() => setConfirm(false)}
             ></Confirm>
           )}

@@ -14,7 +14,7 @@
 //          }
 //  }
 
-import { ADS_LOADED_SUCCES, AD_LOADED_SUCCES, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, CREATED_AD_SUCCES, TAGS_LOADED_SUCCES, UI_RESET_ERROR } from "./types";
+import { ADS_LOADED_SUCCES, AD_LOADED_SUCCES, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, CREATED_AD_SUCCES, DELETED_AD_SUCCES, TAGS_LOADED_SUCCES, UI_RESET_ERROR } from "./types";
 
 const defaultState = {
     auth: false,
@@ -52,6 +52,9 @@ export function ads(state = defaultState.ads, action) {
     }
     if(action.type === CREATED_AD_SUCCES){
         return { ...state, data: [action.payload, ...state.data]}
+    }
+    if(action.type === DELETED_AD_SUCCES) {
+        return { ...state, areLoaded: false}
     }
 
     return state;
