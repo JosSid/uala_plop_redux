@@ -108,7 +108,7 @@ export const adLoadedFailure = (error) => ({
 });
 
 export const adLoad = (adId) => {
-  return async function(dispatch, getState, {api}) {
+  return async function(dispatch, getState, {api, router}) {
     const chargedAd = getAdById(adId)(getState());
     if(chargedAd) return;
     try {
@@ -117,7 +117,9 @@ export const adLoad = (adId) => {
       dispatch(adLoadedSucces(ad));
     } catch (error) {
       dispatch(adLoadedFailure(error));
-      throw error;
+      if (error.status === 404) {
+          router.navigate('/404');
+        }
     };
   };
 };
@@ -167,13 +169,13 @@ export const createAdFailure = (error) => ({
 });
 
 export const createAd = (formData) => {
-  return async function (dispatch, getState, {api}) {
+  return async function (dispatch, getState, {api, router}) {
     try {
       dispatch(createAdRequest());
       const createNewAd = await api.ads.createAd(formData);
       const newAd = createNewAd.id;
       dispatch(createAdSucces(createNewAd));
-      return newAd // hacer navigate a ads
+      router.navigate(`/ads/${newAd}`)
     } catch (error) {
       dispatch(createAdFailure(error));
       throw error;
@@ -196,11 +198,14 @@ export const deleteAdFailure = (error) => ({
 });
 
 export const deleteAd = (adId) => {
-  return async function(dispatch, getState, {api}) {
+  return async function(dispatch, getState, {api, router}) {
     try {
       dispatch(deleteAdRequest());
       await api.ads.deleteAd(adId);
       dispatch(deleteAdSucces());
+      setTimeout(() => {
+        router.navigate('/')
+      },1000)
     } catch (error) {
       dispatch(deleteAdFailure(error));
       throw error;

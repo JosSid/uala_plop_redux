@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
@@ -11,42 +11,29 @@ import { getAdById, getUi } from '../../store/selectors.js';
 import { adLoad, deleteAd, uiResetError } from '../../store/actions.js';
 const AdPage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const ad = useSelector(getAdById(id));
-  console.log(ad)
-  const {error, isFetching} = useSelector(getUi)
+  console.log(ad);
+  const { error, isFetching } = useSelector(getUi);
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const navigate = useNavigate();
 
   const handleConfirm = () => setConfirm(true);
 
   const deletedAd = () => {
+    dispatch(deleteAd(id));
 
-    dispatch(deleteAd(id))
-
-    !error && setIsDeleted(true)
-    !error && setTimeout(() => {
-      navigate('/');
-    }, 1500);          
+    !error && setIsDeleted(true);
   };
 
   const resetError = () => dispatch(uiResetError());
 
   useEffect(() => {
-    
-    const getAd = async (id) => {
-      try {
-        await dispatch(adLoad(id))
-      } catch (err) {
-        if (err.status === 404) {
-          navigate('/404');
-        }
-
-      }
+    const getAd = (id) => {
+      dispatch(adLoad(id));
     };
     getAd(id);
-  }, [id, navigate, dispatch]);
+  }, [id, dispatch]);
 
   return (
     <div className={styles.ads__page}>
@@ -75,7 +62,6 @@ const AdPage = () => {
       {isFetching && !isDeleted && (
         <div>
           <Spinner />
-
         </div>
       )}
     </div>

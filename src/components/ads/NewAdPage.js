@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import FormField from '../common/formField/FormField.js';
 import Button from '../common/Button.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './NewAdPage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,12 +17,7 @@ const NewAdPage = () => {
   const {error, isFetching} = useSelector(getUi)
   const listTags = useSelector(getListTags)
   const dispatch = useDispatch()
-  const navigate = useNavigate();
-
-  
-
     
-
   const handleChangeName = (event) => setName(event.target.value);
   const handleChangeSale = (event) => setSale(JSON.parse(event.target.value));
   const handleChangePrice = (event) => setPrice(parseInt(event.target.value));
@@ -49,10 +43,8 @@ const NewAdPage = () => {
     formData.append('price', price);
     photo && formData.append('photo', photo);
     formData.append('tags', tags);
-
-    const newAd = await dispatch(createAd(formData))
-      
-    !error && navigate(`/ads/${newAd}`);
+  
+    dispatch(createAd(formData))
 
   };
 
