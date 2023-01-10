@@ -56,7 +56,7 @@ export const authLogoutSucces = () => ({
 });
 
 export const authLogout = () => {
-  return async function (dispatch, ghetState, {api}) {
+  return async function (dispatch, getState, {api}) {
     await api.auth.logout();
     dispatch(authLogoutSucces());
   }
@@ -120,6 +120,7 @@ export const adLoad = (adId) => {
       if (error.status === 404) {
           router.navigate('/404');
         }
+        throw error;
     };
   };
 };
@@ -148,7 +149,8 @@ export const tagsLoad = () => {
       const tags = await api.ads.getTags();
       dispatch(tagsLoadedSucces(tags));
     } catch (error) {
-      dispatch(tagsLoadedFailure(error))
+      dispatch(tagsLoadedFailure(error));
+      throw error;
     };
   };
 };

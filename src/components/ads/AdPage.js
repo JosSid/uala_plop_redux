@@ -13,7 +13,6 @@ const AdPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const ad = useSelector(getAdById(id));
-  console.log(ad);
   const { error, isFetching } = useSelector(getUi);
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirm, setConfirm] = useState(false);

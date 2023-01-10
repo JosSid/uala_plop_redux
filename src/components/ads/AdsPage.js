@@ -37,8 +37,8 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
 
   useEffect(() => {
     const getListAds =  () => {
+      onTagsLoaded();
         onAdsLoaded();
-        onTagsLoaded();
     };
     getListAds();
     getFilters(filters);
