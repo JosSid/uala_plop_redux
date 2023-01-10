@@ -12,29 +12,19 @@ import { useSelector } from 'react-redux';
 import { getIsLogged } from './store/selectors.js';
 
 function App() {
-  const titleApp = 'Uala-Plop'
-  
-  const isLogged = useSelector(getIsLogged)
+  const titleApp = 'Uala-Plop';
+
+  const isLogged = useSelector(getIsLogged);
 
   return (
     <div className='app'>
       <Routes>
-        <Route
-          path='/login'
-          element={
-            !isLogged ? (
-              <LoginPage titleApp={titleApp} />
-            ) : (
-              <Navigate to='/ads' />
-            )
-          }
-        />
-        ;
+        <Route path='/login' element={<LoginPage titleApp={titleApp} />} />;
         <Route
           path='/ads'
           element={
             <RequireAuth>
-              <Layout titleApp={titleApp}/>
+              <Layout titleApp={titleApp} />
             </RequireAuth>
           }
         >

@@ -37,12 +37,13 @@ export const authLoginFailure = (error) => ({
 });
 
 export const authLogin = (credentials) => {
-  return async function (dispatch, getState, {api}) {
+  return async function (dispatch, getState, { api, router }) {
     try {
       dispatch(authLoginRequest());
       const accessToken = await api.auth.login(credentials);
 
       dispatch(authLoginSucces());
+      router.navigate('/');
       return accessToken;
     } catch (err) {
       dispatch(authLoginFailure(err));
@@ -56,11 +57,11 @@ export const authLogoutSucces = () => ({
 });
 
 export const authLogout = () => {
-  return async function (dispatch, getState, {api}) {
+  return async function (dispatch, getState, { api }) {
     await api.auth.logout();
     dispatch(authLogoutSucces());
-  }
-}
+  };
+};
 
 export const adsLoadedSucces = (ads) => ({
   type: ADS_LOADED_SUCCES,
@@ -68,19 +69,19 @@ export const adsLoadedSucces = (ads) => ({
 });
 
 export const adsLoadedRequest = () => ({
-  type: ADS_LOADED_REQUEST
+  type: ADS_LOADED_REQUEST,
 });
 
 export const adsLoadedFailure = (error) => ({
   type: ADS_LOADED_FAILURE,
   payload: error,
-  error: true
+  error: true,
 });
 
 export const adsLoad = () => {
-  return async function(dispatch, getState, {api}) {
+  return async function (dispatch, getState, { api }) {
     const chargedAds = areChargedAds(getState());
-    if(chargedAds) return;
+    if (chargedAds) return;
     try {
       dispatch(adsLoadedRequest());
       const ads = await api.ads.getAds();
@@ -88,7 +89,7 @@ export const adsLoad = () => {
     } catch (error) {
       dispatch(adsLoadedFailure(error));
       throw error;
-    };
+    }
   };
 };
 
@@ -98,30 +99,28 @@ export const adLoadedSucces = (ad) => ({
 });
 
 export const adLoadedRequest = () => ({
-  type: AD_LOADED_REQUEST
+  type: AD_LOADED_REQUEST,
 });
 
 export const adLoadedFailure = (error) => ({
   type: AD_LOADED_FAILURE,
   payload: error,
-  error: true
+  error: true,
 });
 
 export const adLoad = (adId) => {
-  return async function(dispatch, getState, {api, router}) {
+  return async function (dispatch, getState, { api }) {
     const chargedAd = getAdById(adId)(getState());
-    if(chargedAd) return;
+    if (chargedAd) return;
     try {
       dispatch(adLoadedRequest());
       const ad = await api.ads.getAdId(adId);
       dispatch(adLoadedSucces(ad));
     } catch (error) {
       dispatch(adLoadedFailure(error));
-      if (error.status === 404) {
-          router.navigate('/404');
-        }
-        throw error;
-    };
+
+      throw error;
+    }
   };
 };
 
@@ -131,19 +130,19 @@ export const tagsLoadedSucces = (tags) => ({
 });
 
 export const tagsLoadedRequest = () => ({
-  type: TAGS_LOADED_REQUEST
+  type: TAGS_LOADED_REQUEST,
 });
 
 export const tagsLoadedFailure = (error) => ({
   type: TAGS_LOADED_FAILURE,
   payload: error,
-  error: true
+  error: true,
 });
 
 export const tagsLoad = () => {
-  return async function (dispatch, getState, {api}) {
+  return async function (dispatch, getState, { api }) {
     const chargedTags = areChargedTags(getState());
-    if(chargedTags) return;
+    if (chargedTags) return;
     try {
       dispatch(tagsLoadedRequest());
       const tags = await api.ads.getTags();
@@ -151,42 +150,42 @@ export const tagsLoad = () => {
     } catch (error) {
       dispatch(tagsLoadedFailure(error));
       throw error;
-    };
+    }
   };
 };
 
 export const createAdRequest = () => ({
-  type: CREATED_AD_REQUEST
+  type: CREATED_AD_REQUEST,
 });
 
 export const createAdSucces = (ad) => ({
   type: CREATED_AD_SUCCES,
-  payload: ad
+  payload: ad,
 });
 
 export const createAdFailure = (error) => ({
   type: CREATED_AD_FAILURE,
   payload: error,
-  error: true
+  error: true,
 });
 
 export const createAd = (formData) => {
-  return async function (dispatch, getState, {api, router}) {
+  return async function (dispatch, getState, { api, router }) {
     try {
       dispatch(createAdRequest());
       const createNewAd = await api.ads.createAd(formData);
       const newAd = createNewAd.id;
       dispatch(createAdSucces(createNewAd));
-      router.navigate(`/ads/${newAd}`)
+      router.navigate(`/ads/${newAd}`);
     } catch (error) {
       dispatch(createAdFailure(error));
       throw error;
-    };
+    }
   };
 };
 
 export const deleteAdRequest = () => ({
-  type: DELETED_AD_REQUEST
+  type: DELETED_AD_REQUEST,
 });
 
 export const deleteAdSucces = () => ({
@@ -196,22 +195,22 @@ export const deleteAdSucces = () => ({
 export const deleteAdFailure = (error) => ({
   type: DELETED_AD_FAILURE,
   payload: error,
-  error: true
+  error: true,
 });
 
 export const deleteAd = (adId) => {
-  return async function(dispatch, getState, {api, router}) {
+  return async function (dispatch, getState, { api, router }) {
     try {
       dispatch(deleteAdRequest());
       await api.ads.deleteAd(adId);
       dispatch(deleteAdSucces());
       setTimeout(() => {
-        router.navigate('/')
-      },1000)
+        router.navigate('/');
+      }, 1000);
     } catch (error) {
       dispatch(deleteAdFailure(error));
       throw error;
-    };
+    }
   };
 };
 

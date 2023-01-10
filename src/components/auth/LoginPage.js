@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './LoginPage.module.css';
 import Button from '../common/Button.js';
 import CheckBox from '../common/CheckBox.js';
@@ -6,14 +6,16 @@ import FormField from '../common/formField/FormField.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin, uiResetError } from '../../store/actions';
-import { getUi } from '../../store/selectors';
-const LoginPage = ({titleApp}) => {
+import { authLogin, authLogout, uiResetError } from '../../store/actions';
+import { getUi, getIsLogged } from '../../store/selectors';
+
+const LoginPage = ({ titleApp }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
-  const {isFetching, error} = useSelector(getUi);
+  const { isFetching, error } = useSelector(getUi);
+  const isLogged = useSelector(getIsLogged)
 
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
@@ -24,12 +26,15 @@ const LoginPage = ({titleApp}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const accessToken = await dispatch(authLogin({email, password}));
+    const accessToken = await dispatch(authLogin({ email, password }));
     check && storage.set('auth', accessToken);
-    
   };
 
   const isEnabledButton = () => email && password && !isFetching;
+
+  useEffect(() => {
+    isLogged && dispatch(authLogout());
+  }, [dispatch, isLogged]);
 
   return (
     <div className={styles.loginPage}>
