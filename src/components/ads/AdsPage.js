@@ -11,7 +11,6 @@ import {adsLoad, tagsLoad, uiResetError} from '../../store/actions'
 import { getListAds, getListTags, getUiError } from '../../store/selectors.js';
 const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...props}) => {
   const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
-  const [confirm, setConfirm] = useState(true);
   const navigate = useNavigate();
 
   const getFilters = (filters) => {
@@ -21,11 +20,8 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
   const resetError = () => uiResetError()
 
   const goToCreate = () => navigate('/ads/new');
-  const notConfirm = () => {
-    setConfirm(false);
-    navigate('/');
-  };
-
+  const notConfirm = () => navigate('/');
+    
   const message = () => {
     return (
       <div>
@@ -72,7 +68,7 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
 
   return (
     <div className={styles.ads__page}>
-      {filteredAds.length < 1 && confirm && (
+      {filteredAds.length < 1 && (
         <Confirm confirm={goToCreate} notConfirm={notConfirm}>
           {message()}
         </Confirm>
@@ -93,7 +89,7 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
 const mapStateToProps = (state, ownProps) => ({
   ads: getListAds(state),
   tags: getListTags(state),
-  error: getUiError(state)
+  error: getUiError(state),
 });
 
 const mapDispatchToProps = {

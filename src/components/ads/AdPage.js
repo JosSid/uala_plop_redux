@@ -8,19 +8,21 @@ import Confirm from '../common/confirm_element/Confirm.js';
 import AdModel from './ad_model/AdModel.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdById, getUi } from '../../store/selectors.js';
-import { adLoad, deleteAd, uiResetError } from '../../store/actions.js';
+import { adLoad, deleteAd, uiConfirm, uiNotConfirm, uiResetError } from '../../store/actions.js';
 const AdPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const ad = useSelector(getAdById(id));
-  const { error, isFetching } = useSelector(getUi);
+  const { error, isFetching, confirm } = useSelector(getUi);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [confirm, setConfirm] = useState(false);
 
-  const handleConfirm = () => setConfirm(true);
+
+  const handleConfirm = () => dispatch(uiConfirm());
+  const handleNotConfirm = () => dispatch(uiNotConfirm())
 
   const deletedAd = () => {
     dispatch(deleteAd(id));
+    dispatch(uiNotConfirm())
 
     !error && setIsDeleted(true);
   };
@@ -49,7 +51,7 @@ const AdPage = () => {
             <Confirm
               children='Are you sure for delete ad?'
               confirm={deletedAd}
-              notConfirm={() => setConfirm(false)}
+              notConfirm={handleNotConfirm}
             ></Confirm>
           )}
         </div>

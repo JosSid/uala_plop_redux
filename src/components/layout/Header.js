@@ -1,21 +1,24 @@
 import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
 import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authLogout } from '../../store/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { authLogout, uiConfirm, uiNotConfirm } from '../../store/actions.js';
+import { getUiConfirm } from '../../store/selectors.js';
 
 const Header = ({titleApp}) => {
   const  dispatch  = useDispatch()
-  const [confirm, setConfirm] = useState(false);
+  const confirm = useSelector(getUiConfirm)
 
-  const handleConfirm = () => setConfirm(true);
+  const handleConfirm = () => dispatch(uiConfirm());
 
-  const notConfirm = () => setConfirm(false);
+  const handleNotConfirm = () => dispatch(uiNotConfirm());
 
   const message = 'Are you sure for Logout?';
 
-  const handleLogout = () => dispatch(authLogout());
+  const handleLogout = () => {
+    dispatch(authLogout());
+    dispatch(uiNotConfirm());
+  };
   
   return (
     <header className={styles.header__main}>
@@ -31,7 +34,7 @@ const Header = ({titleApp}) => {
           className={styles.header__confirm}
           children={message}
           confirm={handleLogout}
-          notConfirm={notConfirm}
+          notConfirm={handleNotConfirm }
         />
       )}
     </header>

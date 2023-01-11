@@ -19,6 +19,8 @@ import {
   TAGS_LOADED_FAILURE,
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCES,
+  UI_CONFIRM,
+  UI_NOT_CONFIRM,
   UI_RESET_ERROR,
 } from './types';
 
@@ -216,4 +218,12 @@ export const deleteAd = (adId) => {
 
 export const uiResetError = () => ({
   type: UI_RESET_ERROR,
+});
+
+export const uiConfirm = () => ({
+  type: UI_CONFIRM,
+});
+
+export const uiNotConfirm = () => ({
+  type: UI_NOT_CONFIRM,
 });
