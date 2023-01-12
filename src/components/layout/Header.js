@@ -1,23 +1,23 @@
 import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
 import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
+import { messageLogout } from '../../store/notifications.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogout, uiConfirm, uiNotConfirm } from '../../store/actions.js';
+import { uiConfirm, uiConfirmed, uiNotConfirm } from '../../store/actions.js';
 import { getUiConfirm } from '../../store/selectors.js';
 
 const Header = ({titleApp}) => {
-  const  dispatch  = useDispatch()
-  const confirm = useSelector(getUiConfirm)
+  const  dispatch  = useDispatch();
+  const confirm = useSelector(getUiConfirm);
 
-  const handleConfirm = () => dispatch(uiConfirm());
+  const handleConfirm = () => dispatch(uiConfirm({
+    message: messageLogout
+  }));
 
   const handleNotConfirm = () => dispatch(uiNotConfirm());
 
-  const message = 'Are you sure for Logout?';
-
-  const handleLogout = () => {
-    dispatch(authLogout());
-    dispatch(uiNotConfirm());
+  const handleConfirmed = () => {
+    dispatch(uiConfirmed());
   };
   
   return (
@@ -27,13 +27,13 @@ const Header = ({titleApp}) => {
           <h1>{titleApp}</h1>
         </div>
 
-        <BurgerMenu confirm={confirm} onLogout={handleConfirm} />
+        <BurgerMenu onLogout={handleConfirm} />
       </div>
       {confirm && (
         <Confirm
           className={styles.header__confirm}
-          children={message}
-          confirm={handleLogout}
+          children={confirm.message}
+          confirm={handleConfirmed}
           notConfirm={handleNotConfirm }
         />
       )}

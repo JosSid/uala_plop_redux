@@ -11,7 +11,8 @@
 //      ui: {
 //            isFetching: true/false,
 //            error: error/null,
-//            confirm: true/false
+//            confirm: {params}/null
+//            notification: message/null
 //          }
 //  }
 
@@ -24,7 +25,9 @@ import {
   DELETED_AD_SUCCES,
   TAGS_LOADED_SUCCES,
   UI_CONFIRM,
+  UI_NOTIFICATION,
   UI_NOT_CONFIRM,
+  UI_NOT_NOTIFICATION,
   UI_RESET_ERROR,
 } from './types';
 
@@ -41,7 +44,8 @@ const defaultState = {
   ui: {
     isFetching: false,
     error: null,
-    confirm: false,
+    confirm: null,
+    notification: null,
   },
 };
 
@@ -112,13 +116,25 @@ export function ui(state = defaultState.ui, action) {
   if(action.type === UI_CONFIRM) {
     return {
       ...state,
-      confirm: true,
+      confirm: action.payload,
     };
   };
   if(action.type === UI_NOT_CONFIRM) {
     return {
       ...state,
-      confirm: false,
+      confirm: null,
+    };
+  };
+  if(action.type === UI_NOTIFICATION) {
+    return {
+      ...state,
+      notification: action.payload,
+    };
+  };
+  if(action.type === UI_NOT_NOTIFICATION) {
+    return {
+      ...state,
+      notification: null,
     };
   };
   return state;

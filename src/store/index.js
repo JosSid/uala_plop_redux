@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import * as reducers from './reducers';
 import * as auth from './service/authService';
 import * as ads from './service/adsService';
+import * as notifications from './notifications';
 
 const reducer = combineReducers(reducers);
 
@@ -23,7 +24,7 @@ const failuredRedirections =
 
 export default function configureStore(preloadedState, { router }) {
   const middlewares = [
-    thunk.withExtraArgument({ api: { auth, ads }, router }),
+    thunk.withExtraArgument({ api: { auth, ads }, router,notifications }),
     failuredRedirections(router, {
       401: '/login',
       404: '/404',
