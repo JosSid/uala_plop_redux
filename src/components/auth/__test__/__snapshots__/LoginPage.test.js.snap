@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage Snapshot 1`] = `
+<div>
+  <div
+    class="loginPage"
+  >
+    <h1
+      class="loginPage__title"
+    >
+      Welcome to
+       
+      <br />
+      undefined
+    </h1>
+    <h4
+      class="loginPage__title"
+    >
+      Please,login for search or create your advertisment
+    </h4>
+    <form
+      class="loginPage__form"
+    >
+      <div
+        class="formField loginForm__field"
+      >
+        <label
+          class="formField__label"
+        >
+          <span>
+            eMail
+          </span>
+          <input
+            class="formField__input"
+            name="username"
+            type="text"
+            value=""
+          />
+        </label>
+      </div>
+      <div
+        class="formField loginForm__field"
+      >
+        <label
+          class="formField__label"
+        >
+          <span>
+            password
+          </span>
+          <input
+            class="formField__input"
+            name="password"
+            type="password"
+            value=""
+          />
+        </label>
+      </div>
+      <button
+        class="sc-bcXHqe fTfPtG loginForm__submit"
+        disabled=""
+        type="submit"
+      >
+        Log in
+      </button>
+      <div>
+        <label
+          for="checklog"
+          style="color: whitesmoke;"
+        >
+          Check for recording Login
+        </label>
+        <input
+          name="checklog"
+          type="checkbox"
+        />
+      </div>
+    </form>
+    <footer
+      class="footer"
+    >
+      @JosSid2022
+    </footer>
+  </div>
+</div>
+`;
