@@ -1,5 +1,6 @@
-import { adLoadedFailure, adLoadedRequest, adLoadedSucces, adsLoadedFailure, adsLoadedRequest, adsLoadedSucces, authLoginFailure, authLoginRequest, authLoginSucces, authLogoutSucces, createAdFailure, createAdRequest, createAdSucces, deleteAdFailure, deleteAdRequest, deleteAdSucces, tagsLoadedFailure, tagsLoadedRequest, tagsLoadedSucces, uiConfirm, uiNotConfirm, uiNotification, uiNotNotification, uiResetError } from "../actions";
+import { adLoadedFailure, adLoadedRequest, adLoadedSucces, adsLoadedFailure, adsLoadedRequest, adsLoadedSucces, authLoginFailure, authLoginRequest, authLoginSucces, authLogout, authLogoutSucces, createAdFailure, createAdRequest, createAdSucces, deleteAdFailure, deleteAdRequest, deleteAdSucces, tagsLoadedFailure, tagsLoadedRequest, tagsLoadedSucces, uiConfirm, uiNotConfirm, uiNotification, uiNotNotification, uiResetError } from "../actions";
 import { ADS_LOADED_FAILURE, ADS_LOADED_REQUEST, ADS_LOADED_SUCCES, AD_LOADED_FAILURE, AD_LOADED_REQUEST, AD_LOADED_SUCCES, AUTH_LOGIN_FAILURE, AUTH_LOGIN_REQUEST, AUTH_LOGIN_SUCCES, AUTH_LOGOUT, CREATED_AD_FAILURE, CREATED_AD_REQUEST, CREATED_AD_SUCCES, DELETED_AD_FAILURE, DELETED_AD_REQUEST, DELETED_AD_SUCCES, TAGS_LOADED_FAILURE, TAGS_LOADED_REQUEST, TAGS_LOADED_SUCCES, UI_CONFIRM, UI_NOTIFICATION, UI_NOT_CONFIRM, UI_NOT_NOTIFICATION, UI_RESET_ERROR } from "../types";
+
 
 describe('authLoginSucces', () => {
     test('Should return a "AUTH_LOGIN_SUCCES" action', () => {
@@ -41,6 +42,18 @@ describe('authLogoutSucces', () => {
         };
         const action = authLogoutSucces();
         expect(action).toEqual(expectedAction);
+    });
+});
+
+describe('authLogout', () => {
+    const action = authLogout();
+    const dispatch = jest.fn();
+    const api = { auth: {} };
+    test('Should follow the logout flow', () => {
+        api.auth.logout = jest.fn();
+        action(dispatch, undefined, {api});
+        expect(api.auth.logout).toBeCalled();
+        expect(dispatch).toHaveBeenNthCalledWith(1, authLogoutSucces());
     });
 });
 

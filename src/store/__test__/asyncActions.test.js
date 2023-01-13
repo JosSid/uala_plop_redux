@@ -1,4 +1,4 @@
-import { authLogin, authLoginFailure, authLoginRequest, authLoginSucces } from '../actions.js'
+import { authLogin, authLogout, authLoginFailure, authLoginRequest, authLoginSucces } from '../actions.js'
 
 describe('authLogin', () => {
     const credentials = 'credentials';
@@ -31,3 +31,7 @@ describe('authLogin', () => {
 
     });
 });
+
+describe('authLogout', () => {
+
+})

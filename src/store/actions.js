@@ -61,8 +61,8 @@ export const authLogoutSucces = () => ({
 });
 
 export const authLogout = () => {
-  return async function (dispatch, getState, { api }) {
-    await api.auth.logout();
+  return  function (dispatch, getState, { api }) {
+    api.auth.logout();
     dispatch(authLogoutSucces());
   };
 };
