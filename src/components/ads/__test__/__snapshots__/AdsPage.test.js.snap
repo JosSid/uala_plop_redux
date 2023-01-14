@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdsPage Snapshot with data 1`] = `
+<div>
+  <div
+    class="ads__page"
+  >
+    <div
+      class="filter__container"
+    >
+      <div
+        class="filter__active filter__inactive"
+      >
+        Filter Advertisments 🔍
+      </div>
+    </div>
+    <div
+      class="ad__container"
+    >
+      <a
+        class="ad__link"
+        href="/ads/1"
+      >
+        <h2
+          class="model__sale"
+        >
+          Wanted
+        </h2>
+        <h3
+          class="model__name"
+        >
+          car
+        </h3>
+        <div
+          class="model__img"
+        >
+          <img
+            alt="Foto"
+            src="https://shop.sarmy.net.nz/missing_product_image.jpg"
+          />
+        </div>
+        <h3
+          class="model__price"
+        >
+          Max price : 100
+        </h3>
+        <h3
+          class="model__tags"
+        >
+          TAGS
+        </h3>
+        <p>
+          <span>
+             -motor- 
+          </span>
+        </p>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AdsPage Snapshot without data 1`] = `
+<div>
+  <div
+    class="ads__page"
+  >
+    <div
+      class="confirm__container"
+    >
+      <div
+        class="confirm__message"
+      >
+        <div>
+          <h2>
+            Not Advertisments for you
+          </h2>
+          <h2>
+            Go to create your advertisment?
+          </h2>
+        </div>
+      </div>
+      <div
+        class="confirm__button__container"
+      >
+        <button
+          class="sc-bcXHqe dprvWx"
+        >
+          Yes
+        </button>
+        <button
+          class="sc-bcXHqe dprvWx"
+        >
+          No
+        </button>
+      </div>
+    </div>
+    <div
+      class="filter__container"
+    >
+      <div
+        class="filter__active filter__inactive"
+      >
+        Filter Advertisments 🔍
+      </div>
+    </div>
+  </div>
+</div>
+`;

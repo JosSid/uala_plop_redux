@@ -9,7 +9,7 @@ import storage from '../../utils/storage';
 import { connect } from 'react-redux';
 import {adsLoad, tagsLoad, uiResetError} from '../../store/actions'
 import { getListAds, getListTags, getUiError } from '../../store/selectors.js';
-const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...props}) => {
+export const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...props}) => {
   const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
   const navigate = useNavigate();
 
