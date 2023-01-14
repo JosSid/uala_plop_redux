@@ -25,6 +25,6 @@ describe('AdsPage', () => {
             tags: ['motor'],
         };
         const {container} = renderComponent({...props});
-        expect(container).toMatchSnapshot()
+        expect(container).toMatchSnapshot();
     });
 });

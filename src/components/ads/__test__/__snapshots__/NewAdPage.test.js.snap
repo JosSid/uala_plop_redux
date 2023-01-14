@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewAdPage SnapShot 1`] = `
+<div>
+  <div
+    class="newAdPage__container"
+  >
+    <h1>
+      Create Advertisment
+    </h1>
+    <form
+      class="form__container"
+      data-testid="login-form"
+    >
+      <div
+        class="formField"
+      >
+        <label
+          class="formField__label"
+        >
+          <span>
+            Title Advertisment
+          </span>
+          <input
+            class="formField__input"
+            name="name"
+            placeholder="Required field*"
+            type="text"
+            value=""
+          />
+        </label>
+      </div>
+      <fieldset>
+        <legend>
+          For sale or Wanted :
+        </legend>
+        <label
+          for="sale"
+        >
+          For Sale
+        </label>
+        <input
+          checked=""
+          id="sale"
+          name="sale"
+          type="radio"
+          value="true"
+        />
+        <label
+          for="wanted"
+        >
+          Wanted
+        </label>
+        <input
+          id="wanted"
+          name="sale"
+          type="radio"
+          value="false"
+        />
+      </fieldset>
+      <div
+        class="formField"
+      >
+        <label
+          class="formField__label"
+        >
+          <span>
+            Price
+          </span>
+          <input
+            class="formField__input"
+            min="0"
+            name="price"
+            placeholder="Required field*"
+            type="number"
+            value=""
+          />
+        </label>
+      </div>
+      <label
+        for="tags"
+      >
+        Tags
+      </label>
+      <select
+        id="tags"
+        multiple=""
+        name="tags"
+        size="1"
+      >
+        <optgroup
+          label="Required field*"
+        />
+      </select>
+      <label
+        for="photo"
+      >
+        Upload picture
+      </label>
+      <p
+        class="recomendation__size"
+      >
+        *Recomended size 300px / 300px
+      </p>
+      <input
+        id="photo"
+        name="photo"
+        type="file"
+      />
+    </form>
+  </div>
+</div>
+`;

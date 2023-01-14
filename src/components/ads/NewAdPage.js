@@ -59,7 +59,7 @@ const NewAdPage = () => {
     <div className={styles.newAdPage__container}>
       {isFetching && <Spinner />}
       <h1>Create Advertisment</h1>
-      <form className={styles.form__container} onSubmit={handleSubmit}>
+      <form data-testid="login-form" className={styles.form__container} onSubmit={handleSubmit}>
         <FormField
           type='text'
           name='name'
