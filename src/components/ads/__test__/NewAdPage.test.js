@@ -1,5 +1,5 @@
 import NewAdPage from "../NewAdPage";
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen} from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { defaultState } from '../../../store/reducers.js';
 import '@testing-library/jest-dom/extend-expect';
@@ -43,14 +43,14 @@ describe('NewAdPage', () => {
 
        fireEvent.click(submitButton);
 
-       await waitFor(() => screen.getByTestId('login-form'));
-        expect(screen.getByTestId('login-form')).toHaveFormValues({
+       const formElement = await screen.findByTestId('login-form');
+        expect(formElement).toHaveFormValues({
             name: 'Car',
             sale: 'true',
             price: 100,
             tags: tags
         });
-        fireEvent.submit(screen.getByTestId('login-form'));
+        fireEvent.submit(formElement);
         expect(createAd).toHaveBeenCalled();
     });
 });
