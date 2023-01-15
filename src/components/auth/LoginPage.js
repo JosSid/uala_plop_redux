@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './LoginPage.module.css';
 import Button from '../common/Button.js';
 import CheckBox from '../common/CheckBox.js';
+import Form from '../common/form.js/Form';
 import FormField from '../common/formField/FormField.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
@@ -45,7 +46,8 @@ const LoginPage = ({ titleApp }) => {
       <h4 className={styles.loginPage__title}>
         Please,login for search or create your advertisment
       </h4>
-      <form className={styles.loginPage__form} onSubmit={handleSubmit}>
+   
+      <Form initialValue={{email: '', password: ''}} onSubmit={handleSubmit} className={styles.loginPage__form} >
         <FormField
           type='text'
           name='username'
@@ -78,7 +80,8 @@ const LoginPage = ({ titleApp }) => {
           onChange={handleChangeChecked}
           checked={check}
         />
-      </form>
+      </Form>
+
       {error && <ErrorDisplay error={error} resetError={resetError} />}
       <footer className={styles.footer}>@JosSid2022</footer>
     </div>

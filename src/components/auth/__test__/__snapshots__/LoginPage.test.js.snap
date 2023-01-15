@@ -20,6 +20,7 @@ exports[`LoginPage Snapshot 1`] = `
     </h4>
     <form
       class="loginPage__form"
+      value="[object Object]"
     >
       <div
         class="formField loginForm__field"
