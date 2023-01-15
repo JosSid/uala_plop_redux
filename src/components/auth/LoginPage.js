@@ -12,14 +12,15 @@ import { getUi, getIsLogged } from '../../store/selectors';
 
 const LoginPage = ({ titleApp }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [credentials, setCredentials] = useState({});
   const [check, setCheck] = useState(false);
   const { isFetching, error } = useSelector(getUi);
   const isLogged = useSelector(getIsLogged)
 
-  const handleChangeEMail = (event) => setEmail(event.target.value);
-  const handleChangePassword = (event) => setPassword(event.target.value);
+  const handleCredentials = (event) => setCredentials({
+    ...credentials,
+    [event.target.name]: event.target.value
+  });
 
   const handleChangeChecked = (event) => setCheck(event.target.checked);
 
@@ -27,11 +28,12 @@ const LoginPage = ({ titleApp }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const accessToken = await dispatch(authLogin({ email, password }));
+
+    const accessToken = await dispatch(authLogin(credentials));
     check && storage.set('auth', accessToken);
   };
 
-  const isEnabledButton = () => email && password && !isFetching;
+  const isEnabledButton = () => credentials.email && credentials.password && !isFetching;
 
   useEffect(() => {
     isLogged && dispatch(authLogout());
@@ -50,11 +52,10 @@ const LoginPage = ({ titleApp }) => {
       <Form initialValue={{email: '', password: ''}} onSubmit={handleSubmit} className={styles.loginPage__form} >
         <FormField
           type='text'
-          name='username'
+          name='email'
           label='eMail'
           className={styles.loginForm__field}
-          onChange={handleChangeEMail}
-          value={email}
+          getDataEvent={handleCredentials}
         />
 
         <FormField
@@ -62,8 +63,7 @@ const LoginPage = ({ titleApp }) => {
           name='password'
           label='password'
           className={styles.loginForm__field}
-          onChange={handleChangePassword}
-          value={password}
+          getDataEvent={handleCredentials}
         />
 
         <Button

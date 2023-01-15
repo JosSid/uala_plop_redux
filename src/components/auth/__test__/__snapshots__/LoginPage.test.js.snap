@@ -33,7 +33,7 @@ exports[`LoginPage Snapshot 1`] = `
           </span>
           <input
             class="formField__input"
-            name="username"
+            name="email"
             type="text"
             value=""
           />

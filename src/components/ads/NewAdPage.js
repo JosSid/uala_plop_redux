@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import FormField from '../common/formField/FormField.js';
+import {FormField} from '../common/formField/FormField.js';
 import Button from '../common/Button.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Spinner from '../common/spinner/Spinner.js';

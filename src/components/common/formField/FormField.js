@@ -1,7 +1,8 @@
 import classNames from 'classnames';
+import inputWithValue from '../inputWithValue';
 import './FormField.css';
 
-const FormField = ({ className, label, ...props }) => {
+export const FormField = ({ className, label, ...props }) => {
   return (
     <div className={classNames('formField', className)}>
       <label className='formField__label'>
@@ -12,4 +13,4 @@ const FormField = ({ className, label, ...props }) => {
   );
 };
 
-export default FormField;
+export default inputWithValue({initialState: ''})(FormField);
