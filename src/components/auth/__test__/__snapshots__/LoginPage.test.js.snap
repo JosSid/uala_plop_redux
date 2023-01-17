@@ -65,15 +65,15 @@ exports[`LoginPage Snapshot 1`] = `
       </button>
       <div>
         <label
-          for="checklog"
           style="color: whitesmoke;"
         >
           Check for recording Login
+          <input
+            name="checklog"
+            type="checkbox"
+            value="false"
+          />
         </label>
-        <input
-          name="checklog"
-          type="checkbox"
-        />
       </div>
     </form>
     <footer

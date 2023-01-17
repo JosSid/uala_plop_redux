@@ -1,10 +1,13 @@
-const CheckBox = ({ name, label, ...props }) => {
+import inputWithValue from "./inputWithValue";
+
+const CheckBox = ({ label, ...props }) => {
   return (
     <div>
-      <label style={{color: 'whitesmoke'}} htmlFor={name}>{label}</label>
-      <input name={name}{...props} />
+      <label style={{color: 'whitesmoke'}}>{label}
+        <input {...props} />
+      </label>
     </div>
   );
 };
 
-export default CheckBox;
+export default inputWithValue({initialState: false})(CheckBox);

@@ -10,30 +10,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authLogin, authLogout, uiResetError } from '../../store/actions';
 import { getUi, getIsLogged } from '../../store/selectors';
 
+const initialState = { email: '',
+                       password: '',
+                       checklog : false, }
+
 const LoginPage = ({ titleApp }) => {
   const dispatch = useDispatch();
-  const [credentials, setCredentials] = useState({});
-  const [check, setCheck] = useState(false);
+  const [formValue, setFormValue] = useState(initialState);
   const { isFetching, error } = useSelector(getUi);
   const isLogged = useSelector(getIsLogged)
 
-  const handleCredentials = (event) => setCredentials({
-    ...credentials,
+  const handleCredentials = (event) => setFormValue({
+    ...formValue,
     [event.target.name]: event.target.value
   });
-
-  const handleChangeChecked = (event) => setCheck(event.target.checked);
 
   const resetError = () => dispatch(uiResetError());
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const { email, password, checklog} = formValue;
+    const credentials = { email, password };
     const accessToken = await dispatch(authLogin(credentials));
-    check && storage.set('auth', accessToken);
+    checklog && storage.set('auth', accessToken);
   };
 
-  const isEnabledButton = () => credentials.email && credentials.password && !isFetching;
+  const isEnabledButton = () => formValue.email && formValue.password && !isFetching;
 
   useEffect(() => {
     isLogged && dispatch(authLogout());
@@ -77,8 +79,8 @@ const LoginPage = ({ titleApp }) => {
           name='checklog'
           type='checkbox'
           label='Check for recording Login'
-          onChange={handleChangeChecked}
-          checked={check}
+          getDataEvent={handleCredentials}
+          checked={formValue.checklog}
         />
       </Form>
 

@@ -5,6 +5,14 @@ export default function inputWithValue ({initialState}) {
         const WithValueComponent = ({getDataEvent,...props}) => {
             const [value, setValue] = useState(initialState);
 
+            if(props.type === 'checkbox'){
+                const handleChangeData = (event) => {
+                    setValue(event.target.checked);
+                    getDataEvent(event);
+                }
+                return <WrappedComponent {...props} onChange={handleChangeData} value={value} checked={value} />
+            }
+
             const handleChangeData = (event) => {
                 setValue(event.target.value);
                 getDataEvent(event);
