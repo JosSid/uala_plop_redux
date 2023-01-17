@@ -10,6 +10,8 @@ const BurgerMenu = ({ onLogout }) => {
 
   const handleCheck = () => setCheck(!check);
 
+  const offCheck = () => setCheck(false);
+
   return (
     <nav className={styles.burger__menu__wrapper}>
       <label htmlFor='menu' className={styles.burger__menu__label} >
@@ -22,7 +24,7 @@ const BurgerMenu = ({ onLogout }) => {
         id='menu'
         className={styles.burger__menu__input}
       />
-      <div className={styles.burger__menu__list} onClick={handleCheck}>
+      <div className={styles.burger__menu__list} onClick={offCheck}>
         <Button
           as={Link}
           to='/'
