@@ -20,7 +20,7 @@ const LoginPage = ({ titleApp }) => {
   const { isFetching, error } = useSelector(getUi);
   const isLogged = useSelector(getIsLogged)
 
-  const handleCredentials = (event) => setFormValue({
+  const handleFormValue = (event) => setFormValue({
     ...formValue,
     [event.target.name]: event.target.value
   });
@@ -57,7 +57,7 @@ const LoginPage = ({ titleApp }) => {
           name='email'
           label='eMail'
           className={styles.loginForm__field}
-          getDataEvent={handleCredentials}
+          getDataEvent={handleFormValue}
         />
 
         <FormField
@@ -65,7 +65,7 @@ const LoginPage = ({ titleApp }) => {
           name='password'
           label='password'
           className={styles.loginForm__field}
-          getDataEvent={handleCredentials}
+          getDataEvent={handleFormValue}
         />
 
         <Button
@@ -79,7 +79,7 @@ const LoginPage = ({ titleApp }) => {
           name='checklog'
           type='checkbox'
           label='Check for recording Login'
-          getDataEvent={handleCredentials}
+          getDataEvent={handleFormValue}
           checked={formValue.checklog}
         />
       </Form>
